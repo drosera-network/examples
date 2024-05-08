@@ -4,3 +4,9 @@
 [submodule "oracles/inverse-finance/lib/forge-std"]
 	path = oracles/inverse-finance/lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
+[submodule "oracles/twap/lib/forge-std"]
+	path = oracles/twap/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "oracles/twap/lib/prb-math"]
+	path = oracles/twap/lib/prb-math
+	url = https://github.com/PaulRBerg/prb-math
