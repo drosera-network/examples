@@ -41,18 +41,6 @@ contract NomadAttacker is Test {
         newFork = vm.createSelectFork("mainnet", 15_259_101);
         newTrapContract = IDroseraTrap(_testDeployTrapContract());
 
-        // /* ---- CREATE USERS ---- */
-        // users = ScenarioUtils.createUsers(10);
-        // privateKeys = ScenarioUtils.getPrivateKeys(users);
-
-        // /* ---- REGISTER USERS ---- */
-        // for (uint256 i = 0; i < users.length; i++) {
-        //     address user = users[i];
-        //     weth.transfer(user, 100 ether);
-        //     _testRegisterOperator(user);
-        // }
-        // console.log("Register users on Drosera");
-
         console.log(
             "\nNomad Exploit Mechanism: Attackers can copy the original user's transaction calldata and replacing the receive address with a personal one."
         );
@@ -127,8 +115,8 @@ contract NomadAttacker is Test {
             endingBlock
         );
         uint256[][] memory dataPoints = new uint[][](2);
-        dataPoints[0] = initialCollectedData;
-        dataPoints[1] = finalCollectedData;
+        dataPoints[0] = finalCollectedData;
+        dataPoints[1] = initialCollectedData;
         bool result = newTrapContract.isValid(dataPoints);
         require(result == false, "Trap should be invalid");
         console.log(
@@ -159,6 +147,7 @@ contract NomadAttacker is Test {
         console.log("An attacker attempts to perform exploit again");
         vm.expectRevert("NomadReplica: contract is paused");
         bool suc = Replica.process(_message);
+        assert(!suc);
         console.log(
             "Attacker transaction reverts with NomadReplica: contract is paused"
         );

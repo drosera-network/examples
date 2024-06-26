@@ -20,10 +20,10 @@ contract ForkTrapTest is Test {
             memory data = new ForkTrap.CustomCollectStruct[](2);
 
         vm.selectFork(preExploitFork);
-        data[0] = new ForkTrap().collect();
+        data[1] = new ForkTrap().collect();
 
         vm.selectFork(exploitFork);
-        data[1] = new ForkTrap().collect();
+        data[0] = new ForkTrap().collect();
 
         bool isValid = new ForkTrap().isValid(data);
         assert(isValid == false);

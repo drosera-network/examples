@@ -39,14 +39,16 @@ contract TWAPTrap {
      * @param dataPoints An array of price data points to check.
      * @return A boolean indicating whether the price data points are valid.
      */
-    function isValid(PriceDataPoint[] calldata dataPoints) external view returns (bool) {
+    function isValid(
+        PriceDataPoint[] calldata dataPoints
+    ) external view returns (bool) {
         uint256 dataPointsLength = dataPoints.length;
         if (dataPointsLength < 2) {
             return true;
         }
 
-        uint256 maxPrice = dataPoints[0].price;
-        uint256 minPrice = dataPoints[0].price;
+        uint256 maxPrice = dataPoints[dataPointsLength - 1].price;
+        uint256 minPrice = dataPoints[dataPointsLength - 1].price;
 
         for (uint256 i = 0; i < dataPointsLength; i++) {
             uint256 price = dataPoints[i].price;
@@ -61,7 +63,8 @@ contract TWAPTrap {
         }
 
         uint256 priceRange = maxPrice - minPrice;
-        uint256 allowedDeviation = (minPrice * deviationThreshold) / THRESHOLD_MULTIPLIER;
+        uint256 allowedDeviation = (minPrice * deviationThreshold) /
+            THRESHOLD_MULTIPLIER;
 
         return priceRange <= allowedDeviation;
     }

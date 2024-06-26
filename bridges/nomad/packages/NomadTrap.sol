@@ -36,8 +36,8 @@ contract NomadTrap is Test {
     function isValid(
         uint256[][] calldata dataPoints
     ) external pure returns (bool) {
-        uint256 previousX = dataPoints[0][0];
-        uint256 currentX = dataPoints[1][0];
+        uint256 currentX = dataPoints[0][0];
+        uint256 previousX = dataPoints[1][0];
         if (previousX > currentX) {
             // Negative difference or no change
             if ((100 * (previousX - currentX)) / previousX <= 30) {

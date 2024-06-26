@@ -40,8 +40,8 @@ contract ForkTrap {
 
         if (len == 2) {
             if (
-                !dataPoints[1].isBridgePaused &&
-                dataPoints[1].uniAmount > dataPoints[0].uniAmount
+                !dataPoints[0].isBridgePaused &&
+                dataPoints[0].uniAmount > dataPoints[1].uniAmount
             ) {
                 return false;
             }

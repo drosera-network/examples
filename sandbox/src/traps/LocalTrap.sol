@@ -28,7 +28,7 @@ contract LocalTrap {
         address[] memory bridges = myProtocol.getBridges();
         bool[] memory mintBurnIssue = new bool[](bridges.length);
 
-        // loop through each token
+        // loop through each bridges
         for (uint256 j = 0; j < bridges.length; j++) {
             uint256 lockedAmounts = 0;
             for (uint256 k = 0; k < tokens.length; k++) {

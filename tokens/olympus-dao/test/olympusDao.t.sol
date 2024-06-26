@@ -138,8 +138,8 @@ contract OlympusDaoTrapTest is Test {
             endingBlock
         );
         uint256[][] memory dataPoints = new uint[][](2);
-        dataPoints[0] = initialCollectedData;
-        dataPoints[1] = finalCollectedData;
+        dataPoints[0] = finalCollectedData;
+        dataPoints[1] = initialCollectedData;
         bool result = trapContract.isValid(dataPoints);
         require(result == false, "Trap should be invalid");
         console.log(
