@@ -10,12 +10,7 @@ contract MockOracle {
 
     // retrieve the price at the current block number
     function getPrice() external view returns (uint256) {
-        uint256 index = 0;
-        if (block.number > prices.length) {
-            index = prices.length - 1;
-        } else {
-            index = block.number - 1;
-        }
+        uint256 index = block.number;
         return prices[index];
     }
 }
