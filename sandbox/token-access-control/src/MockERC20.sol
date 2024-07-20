@@ -7,9 +7,9 @@ import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 contract MockERC20 is ERC20, AccessControlEnumerable {
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
-    constructor(address account) ERC20("MyToken", "TKN") {
-        _grantRole(DEFAULT_ADMIN_ROLE, account);
-        _grantRole(MINTER_ROLE, account);
+    constructor() ERC20("MyToken", "TKN") {
+        _grantRole(DEFAULT_ADMIN_ROLE, _msgSender());
+        _grantRole(MINTER_ROLE, _msgSender());
     }
 
     function mint(address to, uint256 amount) public {

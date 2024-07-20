@@ -13,7 +13,7 @@ contract TokenAccessControlTrapTest is Test {
     address public user;
 
     function setUp() public {
-        mockToken = new MockERC20(address(this));
+        mockToken = new MockERC20();
         user = address(0x123);
     }
 

@@ -13,7 +13,7 @@ contract MockERC20Test is Test {
     function setUp() public {
         minter = address(this);
         user = address(0x123);
-        token = new MockERC20(minter);
+        token = new MockERC20();
     }
 
     function testMinterRole() public view {
