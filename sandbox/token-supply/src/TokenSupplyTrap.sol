@@ -38,6 +38,8 @@ contract TokenSupplyTrap {
                 return false;
             }
         }
+        
+        console.log("No change.");
         return true;
     }
 }

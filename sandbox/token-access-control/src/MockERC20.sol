@@ -25,11 +25,16 @@ contract MockERC20 is ERC20, AccessControlEnumerable {
         _grantRole(MINTER_ROLE, account);
     }
 
-    function getRoleAddresses(bytes32 role) public view returns (address[] memory) {
+    function getRoleAddresses(
+        bytes32 role
+    ) public view returns (address[] memory) {
         uint256 count = getRoleMemberCount(role);
         address[] memory addresses = new address[](count);
         for (uint256 i = 0; i < count; ++i) {
-            addresses[i] = getRoleMember(role, i);
+            address account = getRoleMember(role, i);
+            if (hasRole(role, account)) {                
+                addresses[i] = account;
+            }
         }
         return addresses;
     }
