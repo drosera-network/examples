@@ -25,9 +25,15 @@
 [submodule "bridges/nomad/lib/forge-std"]
 	path = bridges/nomad/lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
-[submodule "access-control/token/lib/openzeppelin-contracts"]
+[submodule "sandbox/token-access-control/lib/openzeppelin-contracts"]
 	path = sandbox/token-access-control/lib/openzeppelin-contracts
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts
-[submodule "access-control/token/lib/forge-std"]
+[submodule "sandbox/token-access-control/lib/forge-std"]
 	path = sandbox/token-access-control/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "sandbox/token-approve/lib/openzeppelin-contracts"]
+	path = sandbox/token-approve/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "sandbox/token-approve/lib/forge-std"]
+	path = sandbox/token-approve/lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
