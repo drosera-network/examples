@@ -10,8 +10,8 @@
 [submodule "oracles/twap/lib/prb-math"]
 	path = oracles/twap/lib/prb-math
 	url = https://github.com/PaulRBerg/prb-math
-[submodule "sandbox/lib/forge-std"]
-	path = sandbox/lib/forge-std
+[submodule "sandbox/bridge/lib/forge-std"]
+	path = sandbox/bridge/lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
 [submodule "tokens/olympus-dao/lib/openzeppelin-contracts"]
 	path = tokens/olympus-dao/lib/openzeppelin-contracts
@@ -19,9 +19,21 @@
 [submodule "tokens/olympus-dao/lib/forge-std"]
 	path = tokens/olympus-dao/lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
-[submodule "sandbox/lib/openzeppelin-contracts"]
-	path = sandbox/lib/openzeppelin-contracts
+[submodule "sandbox/bridge/lib/openzeppelin-contracts"]
+	path = sandbox/bridge/lib/openzeppelin-contracts
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts
 [submodule "bridges/nomad/lib/forge-std"]
 	path = bridges/nomad/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "sandbox/token-access-control/lib/openzeppelin-contracts"]
+	path = sandbox/token-access-control/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "sandbox/token-access-control/lib/forge-std"]
+	path = sandbox/token-access-control/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "sandbox/token-supply/lib/openzeppelin-contracts"]
+	path = sandbox/token-supply/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "sandbox/token-supply/lib/forge-std"]
+	path = sandbox/token-supply/lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
