@@ -34,6 +34,7 @@ contract TokenSupplyTrap {
                 ((previousSupply * allowedIncreasePercentage) / 100);
 
             if (currentSupply > threshold) {
+                console.log("currentSupply increased by more than allowedIncreasePercentage: ", threshold);
                 return false;
             }
         }

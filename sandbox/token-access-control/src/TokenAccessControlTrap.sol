@@ -49,6 +49,7 @@ contract TokenAccessControlTrap {
                 }
             }
             if (!matchFound) {
+                console.log("Address mismatch detected!");
                 return false;
             }
         }
