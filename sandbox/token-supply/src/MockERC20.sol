@@ -7,7 +7,7 @@ import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 contract MockERC20 is ERC20, AccessControlEnumerable {
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
-    constructor(address initialSupply) ERC20("MyToken", "TKN") {
+    constructor(uint256 initialSupply) ERC20("MyToken", "TKN") {
         _grantRole(MINTER_ROLE, msg.sender);
         _mint(msg.sender, initialSupply);
     }
