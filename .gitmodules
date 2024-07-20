@@ -25,9 +25,6 @@
 [submodule "bridges/nomad/lib/forge-std"]
 	path = bridges/nomad/lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
-[submodule "access-control/token/lib"]
-	path = access-control/token/lib
-	url = https://github.com/foundry-rs/forge-std
 [submodule "access-control/token/lib/openzeppelin-contracts"]
 	path = access-control/token/lib/openzeppelin-contracts
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts
