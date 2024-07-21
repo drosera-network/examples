@@ -1,48 +1,48 @@
 [submodule "lending-protocols/prisma/lib/forge-std"]
-	path = lending-protocols/prisma/lib/forge-std
-	url = https://github.com/foundry-rs/forge-std
+path = lending-protocols/prisma/lib/forge-std
+url = https://github.com/foundry-rs/forge-std
 [submodule "oracles/inverse-finance/lib/forge-std"]
-	path = oracles/inverse-finance/lib/forge-std
-	url = https://github.com/foundry-rs/forge-std
+path = oracles/inverse-finance/lib/forge-std
+url = https://github.com/foundry-rs/forge-std
 [submodule "oracles/twap/lib/forge-std"]
-	path = oracles/twap/lib/forge-std
-	url = https://github.com/foundry-rs/forge-std
+path = oracles/twap/lib/forge-std
+url = https://github.com/foundry-rs/forge-std
 [submodule "oracles/twap/lib/prb-math"]
-	path = oracles/twap/lib/prb-math
-	url = https://github.com/PaulRBerg/prb-math
+path = oracles/twap/lib/prb-math
+url = https://github.com/PaulRBerg/prb-math
 [submodule "sandbox/lib/forge-std"]
-	path = sandbox/lib/forge-std
-	url = https://github.com/foundry-rs/forge-std
+path = sandbox/lib/forge-std
+url = https://github.com/foundry-rs/forge-std
 [submodule "tokens/olympus-dao/lib/openzeppelin-contracts"]
-	path = tokens/olympus-dao/lib/openzeppelin-contracts
-	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+path = tokens/olympus-dao/lib/openzeppelin-contracts
+url = https://github.com/OpenZeppelin/openzeppelin-contracts
 [submodule "tokens/olympus-dao/lib/forge-std"]
-	path = tokens/olympus-dao/lib/forge-std
-	url = https://github.com/foundry-rs/forge-std
+path = tokens/olympus-dao/lib/forge-std
+url = https://github.com/foundry-rs/forge-std
 [submodule "sandbox/lib/openzeppelin-contracts"]
-	path = sandbox/lib/openzeppelin-contracts
-	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+path = sandbox/lib/openzeppelin-contracts
+url = https://github.com/OpenZeppelin/openzeppelin-contracts
 [submodule "bridges/nomad/lib/forge-std"]
-	path = bridges/nomad/lib/forge-std
-	url = https://github.com/foundry-rs/forge-std
+path = bridges/nomad/lib/forge-std
+url = https://github.com/foundry-rs/forge-std
 [submodule "bridges/nomad/lib/drosera-lib"]
-	path = bridges/nomad/lib/drosera-lib
-	url = https://github.com/drosera-network/drosera-lib
+path = bridges/nomad/lib/drosera-lib
+url = https://github.com/drosera-network/drosera-lib
 [submodule "lending-protocols/prisma/lib/drosera-lib"]
-	path = lending-protocols/prisma/lib/drosera-lib
-	url = https://github.com/drosera-network/drosera-lib
+path = lending-protocols/prisma/lib/drosera-lib
+url = https://github.com/drosera-network/drosera-lib
 [submodule "oracles/inverse-finance/lib/drosera-lib"]
-	path = oracles/inverse-finance/lib/drosera-lib
-	url = https://github.com/drosera-network/drosera-lib
+path = oracles/inverse-finance/lib/drosera-lib
+url = https://github.com/drosera-network/drosera-lib
 [submodule "lib/drosera-lib"]
-	path = lib/drosera-lib
-	url = https://github.com/drosera-network/drosera-lib
+path = lib/drosera-lib
+url = https://github.com/drosera-network/drosera-lib
 [submodule "sandbox/lib/drosera-lib"]
-	path = sandbox/lib/drosera-lib
-	url = https://github.com/drosera-network/drosera-lib
+path = sandbox/lib/drosera-lib
+url = https://github.com/drosera-network/drosera-lib
 [submodule "tokens/olympus-dao/lib/drosera-lib"]
-	path = tokens/olympus-dao/lib/drosera-lib
-	url = https://github.com/drosera-network/drosera-lib
+path = tokens/olympus-dao/lib/drosera-lib
+url = https://github.com/drosera-network/drosera-lib
 [submodule "oracles/twap/lib/drosera-lib"]
-	path = oracles/twap/lib/drosera-lib
-	url = https://github.com/drosera-network/drosera-lib
+path = oracles/twap/lib/drosera-lib
+url = https://github.com/drosera-network/drosera-lib
