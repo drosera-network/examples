@@ -16,8 +16,8 @@ contract ForkTrapTest is Test {
     }
 
     function test_ForkTrap() external {
-        ForkTrap.CustomCollectStruct[]
-            memory data = new ForkTrap.CustomCollectStruct[](2);
+        bytes[]
+            memory data = new bytes[](2);
 
         vm.selectFork(preExploitFork);
         data[1] = new ForkTrap().collect();
@@ -25,7 +25,7 @@ contract ForkTrapTest is Test {
         vm.selectFork(exploitFork);
         data[0] = new ForkTrap().collect();
 
-        bool isValid = new ForkTrap().isValid(data);
+        (bool isValid,) = new ForkTrap().isValid(data);
         assert(isValid == false);
     }
 }

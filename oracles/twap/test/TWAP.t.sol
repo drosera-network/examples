@@ -23,15 +23,16 @@ contract TWAPTrapTest is Test {
     }
 
     function testTWAPTrap() external {
-        TWAPTrap.PriceDataPoint[] memory prices = new TWAPTrap.PriceDataPoint[](
+        bytes[] memory prices = new bytes[](
             100
         );
 
         // Simulate blocks and check that the trap is valid with normal prices
         for (uint256 i = 99; i >= 10; i--) {
             prices[i] = new TWAPTrap().collect();
-            assertTrue(
-                new TWAPTrap().isValid(prices),
+            (bool isValid,) = new TWAPTrap().isValid(prices);
+            assertTrue(isValid
+                ,
                 "Trap should be valid with normal prices"
             );
             // Simulate a block
@@ -42,8 +43,9 @@ contract TWAPTrapTest is Test {
         // Simulate price manipulation over multiple blocks in reverse order
         for (uint256 i = 9; i > 0; i--) {
             prices[i] = new TWAPTrap().collect();
+            (bool isValid,) = new TWAPTrap().isValid(prices);
             assertTrue(
-                new TWAPTrap().isValid(prices),
+                isValid,
                 "Trap should remain valid during initial manipulation"
             );
             // Simulate a block
@@ -55,8 +57,9 @@ contract TWAPTrapTest is Test {
         prices[0] = new TWAPTrap().collect();
 
         // Check that the trap is triggered with the larger price deviation
+        (bool isValid, ) = new TWAPTrap().isValid(prices);
         assertTrue(
-            !new TWAPTrap().isValid(prices),
+            !isValid,
             "Trap should be triggered with larger price deviation"
         );
     }

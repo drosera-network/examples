@@ -14,8 +14,8 @@ contract PrismaTroveTrapTest is Test {
     }
 
     function test_prismaTroveTrap() public {
-        PrismaTroveTrap.CollectOutput[]
-            memory dataPoints = new PrismaTroveTrap.CollectOutput[](2);
+        bytes[]
+            memory dataPoints = new bytes[](2);
 
         // Select the pre-exploit fork
         vm.selectFork(preExploitFork);
@@ -30,7 +30,7 @@ contract PrismaTroveTrapTest is Test {
         dataPoints[0] = new PrismaTroveTrap().collect();
 
         // Check if the exploit succeeded in draining the user's collateral
-        bool isValid = new PrismaTroveTrap().isValid(dataPoints);
+        (bool isValid, ) = new PrismaTroveTrap().isValid(dataPoints);
 
         // Assert the isValid function returns false triggering the emergency response
         assertTrue(!isValid);
