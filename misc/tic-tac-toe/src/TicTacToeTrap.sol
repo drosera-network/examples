@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import {ITrap} from "./interfaces/ITrap_1_2.sol";
+import {ITrap} from "drosera-lib/interfaces/ITrap.sol";
 import {ITicTacToe} from "./interfaces/ITicTacToe.sol";
 
 contract TicTacToeTrap is ITrap {
