@@ -16,6 +16,7 @@ contract TWAPTrap is ITrap {
 
     struct PriceDataPoint {
         uint256 price;
+        uint256 deviationThreshold;
     }
 
     /**
@@ -32,7 +33,7 @@ contract TWAPTrap is ITrap {
     function collect() external view returns (bytes memory) {
         MockOracle oracleInstance = MockOracle(mockOracle);
         uint256 price = oracleInstance.getPrice();
-        return abi.encode(PriceDataPoint({price: price}));
+        return abi.encode(PriceDataPoint({price: price, deviationThreshold: deviationThreshold}));
     }
 
     /**
@@ -42,7 +43,7 @@ contract TWAPTrap is ITrap {
      */
     function isValid(
         bytes[] calldata dataPoints
-    ) external view returns (bool, bytes memory) {
+    ) external pure returns (bool, bytes memory) {
         uint256 dataPointsLength = dataPoints.length;
         if (dataPointsLength < 2) {
             return (true, bytes(""));
@@ -50,6 +51,7 @@ contract TWAPTrap is ITrap {
 
         uint256 maxPrice = abi.decode(dataPoints[dataPointsLength - 1], (PriceDataPoint)).price;
         uint256 minPrice = abi.decode(dataPoints[dataPointsLength - 1], (PriceDataPoint)).price;
+        uint256 deviation = abi.decode(dataPoints[dataPointsLength - 1], (PriceDataPoint)).deviationThreshold;
 
         for (uint256 i = 0; i < dataPointsLength; i++) {
             uint256 price = abi.decode(dataPoints[i], (PriceDataPoint)).price;
@@ -64,7 +66,7 @@ contract TWAPTrap is ITrap {
         }
 
         uint256 priceRange = maxPrice - minPrice;
-        uint256 allowedDeviation = (minPrice * deviationThreshold) /
+        uint256 allowedDeviation = (minPrice * deviation) /
             THRESHOLD_MULTIPLIER;
 
         return (priceRange <= allowedDeviation, bytes(""));
