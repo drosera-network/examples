@@ -3,5 +3,5 @@ pragma solidity ^0.8.12;
 
 interface ITrap {
     function collect() external view returns (bytes memory);
-    function isValid(bytes[] calldata data) external view returns (bool, bytes memory);
+    function isValid(bytes[] calldata data) external pure returns (bool, bytes memory);
 }
