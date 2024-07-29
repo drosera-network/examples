@@ -3,7 +3,7 @@ pragma solidity ^0.8.12;
 
 import "./interfaces/IBondFixedExpiryTellerWithDrosera.sol";
 import {ERC20} from "../lib/solmate/src/tokens/ERC20.sol";
-import {ITrap} from "./interfaces/ITrap.sol";
+import {ITrap} from "drosera-lib/interfaces/ITrap.sol";
 
 // Drosera Trap Contract
 // Purpose: This contract defines validation logic that determines an invalid state.

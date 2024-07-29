@@ -2,7 +2,7 @@
 pragma solidity ^0.8.12;
 
 import {IERC20} from "../node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import {ITrap} from "./interfaces/ITrap.sol";
+import {ITrap} from "drosera-lib/interfaces/ITrap.sol";
 
 // Drosera Trap Contract
 // Purpose: This contract defines validation logic that determines an invalid state.

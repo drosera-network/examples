@@ -2,7 +2,7 @@
 pragma solidity ^0.8.13;
 
 import {MockOracle} from "./MockOracle.sol";
-import {ITrap} from "./interfaces/ITrap.sol";
+import {ITrap} from "drosera-lib/interfaces/ITrap.sol";
 
 /**
  * @title TWAPTrap

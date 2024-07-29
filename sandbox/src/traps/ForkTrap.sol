@@ -2,7 +2,7 @@
 pragma solidity ^0.8.13;
 
 import {IERC20} from "forge-std/interfaces/IERC20.sol";
-import {ITrap} from "../interfaces/ITrap.sol";
+import {ITrap} from "drosera-lib/interfaces/ITrap.sol";
 
 interface IUniPool {
     function liquidity() external view returns (uint256);
