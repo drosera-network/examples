@@ -43,3 +43,6 @@
 [submodule "tokens/olympus-dao/lib/drosera-lib"]
 	path = tokens/olympus-dao/lib/drosera-lib
 	url = https://github.com/drosera-network/drosera-lib
+[submodule "oracles/twap/lib/drosera-lib"]
+	path = oracles/twap/lib/drosera-lib
+	url = https://github.com/drosera-network/drosera-lib
