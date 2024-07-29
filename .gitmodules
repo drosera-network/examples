@@ -40,3 +40,6 @@
 [submodule "sandbox/lib/drosera-lib"]
 	path = sandbox/lib/drosera-lib
 	url = https://github.com/drosera-network/drosera-lib
+[submodule "tokens/olympus-dao/lib/drosera-lib"]
+	path = tokens/olympus-dao/lib/drosera-lib
+	url = https://github.com/drosera-network/drosera-lib
