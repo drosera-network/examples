@@ -31,3 +31,6 @@
 [submodule "lending-protocols/prisma/lib/drosera-lib"]
 	path = lending-protocols/prisma/lib/drosera-lib
 	url = https://github.com/drosera-network/drosera-lib
+[submodule "oracles/inverse-finance/lib/drosera-lib"]
+	path = oracles/inverse-finance/lib/drosera-lib
+	url = https://github.com/drosera-network/drosera-lib
