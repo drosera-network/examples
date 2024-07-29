@@ -1,2 +1,3 @@
 forge-std/=lib/forge-std/src/
 @prb/math/=lib/prb-math/src/
+drosera-lib/=lib/drosera-lib/src/

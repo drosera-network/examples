@@ -2,6 +2,7 @@
 pragma solidity ^0.8.13;
 
 import {IERC20} from "forge-std/interfaces/IERC20.sol";
+import {ITrap} from "drosera-lib/interfaces/ITrap.sol";
 
 // https://github.com/prisma-fi/prisma-contracts/blob/main/contracts/interfaces/ITroveManager.sol
 interface ITroveManager {
@@ -20,7 +21,7 @@ interface ITroveManager {
         );
 }
 
-contract PrismaTroveTrap {
+contract PrismaTroveTrap is ITrap {
     struct CollectOutput {
         uint256 debt;
         uint256 coll;
@@ -37,7 +38,7 @@ contract PrismaTroveTrap {
     // The targeted collateral token
     IERC20 wstETH = IERC20(0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0);
 
-    function collect() external view returns (CollectOutput memory) {
+    function collect() external view returns (bytes memory) {
         uint256 debt;
         uint256 coll;
 
@@ -48,14 +49,14 @@ contract PrismaTroveTrap {
         uint256 collBalance = wstETH.balanceOf(troveOwner);
 
         return
-            CollectOutput({debt: debt, coll: coll, collBalance: collBalance});
+            abi.encode(CollectOutput({debt: debt, coll: coll, collBalance: collBalance}));
     }
 
     function isValid(
-        CollectOutput[] calldata dataPoints
-    ) external pure returns (bool) {
-        CollectOutput memory currentBlock = dataPoints[0];
-        CollectOutput memory previousBlock = dataPoints[1];
+        bytes[] calldata dataPoints
+    ) external pure returns (bool, bytes memory) {
+        CollectOutput memory currentBlock = abi.decode(dataPoints[0], (CollectOutput));
+        CollectOutput memory previousBlock = abi.decode(dataPoints[1], (CollectOutput));
 
         // Check for user collateral decrease
         if (currentBlock.coll < previousBlock.coll) {
@@ -72,11 +73,11 @@ contract PrismaTroveTrap {
                     if (currentBlock.debt != 0) {
                         // The user's collateral has decreased by more than 10% from the previous block, they did not redeem any collateral, and they have debt still.
                         // Exploit occured! Trigger the emergency response.
-                        return false;
+                        return (false, bytes(""));
                     }
                 }
             }
         }
-        return true;
+        return (true, bytes(""));
     }
 }

@@ -2,6 +2,7 @@
 pragma solidity ^0.8.13;
 
 import {IERC20} from "forge-std/interfaces/IERC20.sol";
+import {ITrap} from "drosera-lib/interfaces/ITrap.sol";
 
 interface IUniPool {
     function liquidity() external view returns (uint256);
@@ -11,7 +12,7 @@ interface ISynapseBridge {
     function paused() external view returns (bool);
 }
 
-contract ForkTrap {
+contract ForkTrap is ITrap {
     struct CustomCollectStruct {
         bool isBridgePaused;
         uint256 uniAmount;
@@ -19,35 +20,43 @@ contract ForkTrap {
         uint256 blockNumber;
     }
 
-    function collect() external view returns (CustomCollectStruct memory) {
+    function collect() external view returns (bytes memory) {
         bool paused = this.isBridgePaused();
         uint256 uniAmount = this.getSomeUniData();
         uint256 poolAmount = this.getSomeUniPoolData();
 
         return
-            CustomCollectStruct({
+            abi.encode(CustomCollectStruct({
                 isBridgePaused: paused,
                 uniAmount: uniAmount,
                 poolAmount: poolAmount,
                 blockNumber: block.number
-            });
+            }));
     }
 
     function isValid(
-        CustomCollectStruct[] calldata dataPoints
-    ) external pure returns (bool) {
+        bytes[] calldata dataPoints
+    ) external pure returns (bool, bytes memory) {
         uint256 len = dataPoints.length;
 
         if (len == 2) {
+            CustomCollectStruct memory dataPoints0 = abi.decode(
+                dataPoints[0],
+                (CustomCollectStruct)
+            );
+            CustomCollectStruct memory dataPoints1 = abi.decode(
+                dataPoints[1],
+                (CustomCollectStruct)
+            );
             if (
-                !dataPoints[0].isBridgePaused &&
-                dataPoints[0].uniAmount > dataPoints[1].uniAmount
+                !dataPoints0.isBridgePaused &&
+                dataPoints0.uniAmount > dataPoints1.uniAmount
             ) {
-                return false;
+                return (false, bytes(""));
             }
         }
 
-        return true;
+        return (true, bytes(""));
     }
 
     function getSomeUniData() public view returns (uint256) {

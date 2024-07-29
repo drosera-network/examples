@@ -6,14 +6,7 @@ import {IERC20} from "forge-std/interfaces/IERC20.sol";
 import {BondFixedExpiryTellerWithDrosera} from "../src/BondFixedExpiryTellerWithDrosera.sol";
 import {ERC20BondToken} from "../src/ERC20BondToken.sol";
 import "../src/OlympusDaoTrap.sol";
-
-interface IDroseraTrap {
-    function collect() external view returns (uint256[] memory);
-
-    function isValid(
-        uint256[][] calldata dataPoints
-    ) external view returns (bool);
-}
+import {ITrap} from "../src/interfaces/ITrap.sol";
 
 address constant OHM = 0x64aa3364F17a4D01c6f1751Fd97C2BD3D7e7f1D5;
 
@@ -43,7 +36,7 @@ contract FakeToken {
 contract OlympusDaoTrapTest is Test {
     /* ========== STATE VARIABLES ========== */
     bytes32 public trapHash;
-    IDroseraTrap trapContract;
+    ITrap trapContract;
     address constant BFETAddress = 0x007FE7c498A2Cf30971ad8f2cbC36bd14Ac51156;
     string public protocolByteCodePath =
         "BondFixedExpiryTellerWithDrosera.sol:BondFixedExpiryTellerWithDrosera";
@@ -69,7 +62,7 @@ contract OlympusDaoTrapTest is Test {
         assembly {
             deployed := create(0, add(byteCode, 0x20), mload(byteCode))
         }
-        trapContract = IDroseraTrap(deployed);
+        trapContract = ITrap(deployed);
     }
 
     function testExploit() public {
@@ -80,7 +73,7 @@ contract OlympusDaoTrapTest is Test {
 
         // First Collect
         console.log("DROSERA Collected Data From Block %s", block.number);
-        uint256[] memory initialCollectedData = trapContract.collect();
+        uint256[] memory initialCollectedData = abi.decode(trapContract.collect(), (uint256[]));
         require(initialCollectedData.length > 0, "Collected data is empty");
 
         emit log_named_decimal_uint(
@@ -128,7 +121,7 @@ contract OlympusDaoTrapTest is Test {
 
         // Second Collect
         console.log("DROSERA Collected Data From Block %s", block.number);
-        uint256[] memory finalCollectedData = trapContract.collect();
+        uint256[] memory finalCollectedData = abi.decode(trapContract.collect(), (uint256[]));
         require(finalCollectedData.length > 0, "Collected data is empty");
 
         // Check the trap
@@ -137,10 +130,10 @@ contract OlympusDaoTrapTest is Test {
             startingBlock,
             endingBlock
         );
-        uint256[][] memory dataPoints = new uint[][](2);
-        dataPoints[0] = finalCollectedData;
-        dataPoints[1] = initialCollectedData;
-        bool result = trapContract.isValid(dataPoints);
+        bytes[] memory dataPoints = new bytes[](2);
+        dataPoints[0] = abi.encode(finalCollectedData);
+        dataPoints[1] = abi.encode(initialCollectedData);
+        (bool result,) = trapContract.isValid(dataPoints);
         require(result == false, "Trap should be invalid");
         console.log(
             "DROSERA identified that state is invalid and emergency response is required"

@@ -4,8 +4,9 @@ pragma solidity ^0.8.13;
 import {IERC20} from "forge-std/interfaces/IERC20.sol";
 import {MyProtocol} from "../protocols/MyProtocol.sol";
 import {MockBridge} from "../protocols/MockBridge.sol";
+import {ITrap} from "drosera-lib/interfaces/ITrap.sol";
 
-contract LocalTrap {
+contract LocalTrap is ITrap {
     struct CustomCollectStruct {
         address[] tokens;
         address[] bridges;
@@ -23,7 +24,7 @@ contract LocalTrap {
         mockBridge = MockBridge(_mockBridge);
     }
 
-    function collect() external view returns (CustomCollectStruct memory) {
+    function collect() external view returns (bytes memory) {
         address[] memory tokens = myProtocol.getTokens();
         address[] memory bridges = myProtocol.getBridges();
         bool[] memory mintBurnIssue = new bool[](bridges.length);
@@ -49,29 +50,33 @@ contract LocalTrap {
         }
 
         return
-            CustomCollectStruct({
+            abi.encode(CustomCollectStruct({
                 tokens: tokens,
                 bridges: bridges,
                 mintBurnIssue: mintBurnIssue,
                 blockNumber: block.number
-            });
+            }));
     }
 
     function isValid(
-        CustomCollectStruct[] calldata dataPoints
-    ) external pure returns (bool) {
+        bytes[] calldata dataPoints
+    ) external pure returns (bool, bytes memory) {
         uint256 len = dataPoints.length;
 
         // loop through each block
         for (uint256 i = 0; i < len; i++) {
             // loop through each bridge
-            for (uint256 j = 0; j < dataPoints[i].bridges.length; j++) {
-                if (dataPoints[i].mintBurnIssue[j]) {
-                    return false;
+            CustomCollectStruct memory data = abi.decode(
+                dataPoints[i],
+                (CustomCollectStruct)
+            );
+            for (uint256 j = 0; j < data.bridges.length; j++) {
+                if (data.mintBurnIssue[j]) {
+                    return (false, bytes(""));
                 }
             }
         }
 
-        return true;
+        return (true, bytes(""));
     }
 }

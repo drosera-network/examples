@@ -31,13 +31,13 @@ contract LocalTrapTest is Test {
 
     function test_LocalTrap() external {
         // Trap is ran on current block
-        LocalTrap.CustomCollectStruct[]
-            memory data = new LocalTrap.CustomCollectStruct[](1);
+        bytes[]
+            memory data = new bytes[](1);
         address localTrap = address(
             new LocalTrap(address(myProtocol), address(mockBridge))
         );
         data[0] = LocalTrap(localTrap).collect();
-        bool isValid = LocalTrap(localTrap).isValid(data);
+        (bool isValid,) = LocalTrap(localTrap).isValid(data);
 
         // No exploit seen
         assert(isValid);
@@ -49,12 +49,12 @@ contract LocalTrapTest is Test {
         ERC20Mock(mockBridge.receiptToken()).mint(address(this), 10 ether);
 
         // Trap is ran next block
-        data = new LocalTrap.CustomCollectStruct[](1);
+        data = new bytes[](1);
         localTrap = address(
             new LocalTrap(address(myProtocol), address(mockBridge))
         );
         data[0] = LocalTrap(localTrap).collect();
-        isValid = LocalTrap(localTrap).isValid(data);
+        (isValid, ) = LocalTrap(localTrap).isValid(data);
 
         // Exploit seen
         assert(!isValid);

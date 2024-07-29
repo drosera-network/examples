@@ -2,11 +2,11 @@
 pragma solidity ^0.8.12;
 
 import {IERC20} from "../node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "forge-std/Test.sol";
+import {ITrap} from "drosera-lib/interfaces/ITrap.sol";
 
 // Drosera Trap Contract
 // Purpose: This contract defines validation logic that determines an invalid state.
-contract NomadTrap is Test {
+contract NomadTrap is ITrap {
     // State Variables
     // - Number of blocks between points
     uint256 public blockInterval = 5;
@@ -26,26 +26,27 @@ contract NomadTrap is Test {
     }
 
     // Core Functions
-    function collect() external view returns (uint256[] memory) {
+    function collect() external view returns (bytes memory) {
         uint256 treasury = IERC20(protocol).balanceOf(account);
         uint256[] memory result = new uint[](1);
         result[0] = treasury;
-        return result;
+        return abi.encode(result);
     }
 
     function isValid(
-        uint256[][] calldata dataPoints
-    ) external pure returns (bool) {
-        uint256 currentX = dataPoints[0][0];
-        uint256 previousX = dataPoints[1][0];
-        if (previousX > currentX) {
+        bytes[] calldata dataPoints
+    ) external pure returns (bool, bytes memory) {
+        uint256[] memory currentX = abi.decode(dataPoints[0], (uint256[]));
+        uint256[] memory previousX = abi.decode(dataPoints[1], (uint256[]));
+
+        if (previousX[0] > currentX[0]) {
             // Negative difference or no change
-            if ((100 * (previousX - currentX)) / previousX <= 30) {
-                return true;
+            if ((100 * (previousX[0] - currentX[0])) / previousX[0] <= 30) {
+                return (true, bytes(""));
             }
         }
 
-        return false;
+        return (false, bytes(""));
     }
 
     // Utility Functions

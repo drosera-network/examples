@@ -2,6 +2,7 @@
 pragma solidity ^0.8.13;
 
 import {IERC20} from "forge-std/interfaces/IERC20.sol";
+import {ITrap} from "drosera-lib/interfaces/ITrap.sol";
 
 interface IKeep3rV2Oracle {
     function current(
@@ -11,7 +12,7 @@ interface IKeep3rV2Oracle {
     ) external view returns (uint256 amountOut, uint256 lastUpdatedAgo);
 }
 
-contract InverseFinanceTrap {
+contract InverseFinanceTrap is ITrap{
     struct PriceDataPoint {
         uint256 price;
         uint256 timestamp;
@@ -24,27 +25,27 @@ contract InverseFinanceTrap {
 
     uint256 public constant PRICE_DEVIATION_THRESHOLD = 10; // 10% deviation threshold
 
-    function collect() external view returns (PriceDataPoint memory) {
+    function collect() external view returns (bytes memory) {
         (uint256 amountOut, uint256 lastUpdatedAgo) = oracle.current(
             address(inv),
             1 ether,
             address(weth)
         );
 
-        return PriceDataPoint({price: amountOut, timestamp: lastUpdatedAgo});
+        return abi.encode(PriceDataPoint({price: amountOut, timestamp: lastUpdatedAgo}));
     }
 
     function isValid(
-        PriceDataPoint[] calldata dataPoints
-    ) external pure returns (bool) {
+        bytes[] calldata dataPoints
+    ) external pure returns (bool, bytes memory) {
         uint256 len = dataPoints.length;
         if (len < 2) {
-            return true;
+            return (true, bytes(""));
         }
 
         for (uint256 i = 1; i < len; i++) {
-            PriceDataPoint memory currentPrice = dataPoints[i - 1];
-            PriceDataPoint memory prevPrice = dataPoints[i];
+            PriceDataPoint memory currentPrice = abi.decode(dataPoints[i - 1], (PriceDataPoint));
+            PriceDataPoint memory prevPrice = abi.decode(dataPoints[i], (PriceDataPoint));
 
             uint256 priceDiff = (currentPrice.price > prevPrice.price)
                 ? currentPrice.price - prevPrice.price
@@ -53,10 +54,10 @@ contract InverseFinanceTrap {
             uint256 priceDeviation = (priceDiff * 100) / prevPrice.price;
 
             if (priceDeviation > PRICE_DEVIATION_THRESHOLD) {
-                return false;
+                return (false, bytes(""));
             }
         }
 
-        return true;
+        return (true, bytes(""));
     }
 }

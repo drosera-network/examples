@@ -5,14 +5,8 @@ import "forge-std/Test.sol";
 import {IERC20} from "forge-std/interfaces/IERC20.sol";
 import {ReplicaWithDrosera} from "../packages/contracts-core/contracts/ReplicaWithDrosera.sol";
 import {NomadTrap} from "../packages/NomadTrap.sol";
+import {ITrap} from "../packages/interfaces/ITrap.sol";
 
-interface IDroseraTrap {
-    function collect() external view returns (uint256[] memory);
-
-    function isValid(
-        uint256[][] calldata dataPoints
-    ) external view returns (bool);
-}
 
 /// @title Nomad Attacker Tests
 /// @notice Purpose: Run the nomad exploit and test Drosera's emergency response
@@ -23,8 +17,8 @@ contract NomadAttacker is Test {
     uint256 newFork;
     uint256 previousFork;
     bytes32 public trapHash;
-    IDroseraTrap newTrapContract;
-    IDroseraTrap previousTrapContract;
+    ITrap newTrapContract;
+    ITrap previousTrapContract;
     string public TrapByteCodePath = "NomadTrap.sol:NomadTrap";
     string public protocolByteCodePath =
         "ReplicaWithDrosera.sol:ReplicaWithDrosera";
@@ -35,11 +29,11 @@ contract NomadAttacker is Test {
     function setUp() public {
         /* ---- CREATE FORK AT PRE-EXPLOIT BLOCK ---- */
         previousFork = vm.createSelectFork("mainnet", 15_259_100);
-        previousTrapContract = IDroseraTrap(_testDeployTrapContract());
+        previousTrapContract = ITrap(_testDeployTrapContract());
 
         /* ---- CREATE FORK AT POST-EXPLOIT BLOCK ---- */
         newFork = vm.createSelectFork("mainnet", 15_259_101);
-        newTrapContract = IDroseraTrap(_testDeployTrapContract());
+        newTrapContract = ITrap(_testDeployTrapContract());
 
         console.log(
             "\nNomad Exploit Mechanism: Attackers can copy the original user's transaction calldata and replacing the receive address with a personal one."
@@ -60,7 +54,7 @@ contract NomadAttacker is Test {
         assembly {
             deployed := create(0, add(byteCode, 0x20), mload(byteCode))
         }
-        IDroseraTrap trapContract = IDroseraTrap(deployed);
+        ITrap trapContract = ITrap(deployed);
 
         return address(trapContract);
     }
@@ -85,8 +79,9 @@ contract NomadAttacker is Test {
 
         // First Collect
         console.log("DROSERA Collected Data From Block %s", block.number);
-        uint256[] memory initialCollectedData = previousTrapContract.collect();
-        require(initialCollectedData.length > 0, "Collected data is empty");
+        bytes memory initialCollectedData = previousTrapContract.collect();
+        uint256[] memory initialCollectedDataArray = abi.decode(initialCollectedData, (uint256[]));
+        require(initialCollectedDataArray.length > 0, "Collected data is empty");
 
         // Move the VM up 1 block by switching to post-exploit fork
         vm.selectFork(newFork);
@@ -105,8 +100,9 @@ contract NomadAttacker is Test {
 
         // Second Collect
         console.log("DROSERA Collected Data From Block %s", block.number);
-        uint256[] memory finalCollectedData = newTrapContract.collect();
-        require(finalCollectedData.length > 0, "Collected data is empty");
+        bytes memory finalCollectedData = newTrapContract.collect();
+        uint256[] memory finalCollectedDataArray = abi.decode(finalCollectedData, (uint256[]));
+        require(finalCollectedDataArray.length > 0, "Collected data is empty");
 
         // Check the trap
         console.log(
@@ -114,10 +110,10 @@ contract NomadAttacker is Test {
             startingBlock,
             endingBlock
         );
-        uint256[][] memory dataPoints = new uint[][](2);
+        bytes[] memory dataPoints = new bytes[](2);
         dataPoints[0] = finalCollectedData;
         dataPoints[1] = initialCollectedData;
-        bool result = newTrapContract.isValid(dataPoints);
+        (bool result,) = newTrapContract.isValid(dataPoints);
         require(result == false, "Trap should be invalid");
         console.log(
             "DROSERA identified that state is invalid and emergency response is required"

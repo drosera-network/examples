@@ -15,14 +15,14 @@ contract InverseFinanceTrapTest is Test {
     }
 
     function test_twapTrap() external {
-        InverseFinanceTrap.PriceDataPoint[]
-            memory prices = new InverseFinanceTrap.PriceDataPoint[](2);
+        bytes[]
+            memory prices = new bytes[](2);
         vm.selectFork(preExploitFork);
         prices[1] = new InverseFinanceTrap().collect();
 
         vm.selectFork(exploitFork);
         prices[0] = new InverseFinanceTrap().collect();
-        bool isValid = new InverseFinanceTrap().isValid(prices);
+        (bool isValid, ) = new InverseFinanceTrap().isValid(prices);
         assertTrue(!isValid);
     }
 }
