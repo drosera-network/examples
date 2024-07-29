@@ -28,3 +28,6 @@
 [submodule "bridges/nomad/lib/drosera-lib"]
 	path = bridges/nomad/lib/drosera-lib
 	url = https://github.com/drosera-network/drosera-lib
+[submodule "lending-protocols/prisma/lib/drosera-lib"]
+	path = lending-protocols/prisma/lib/drosera-lib
+	url = https://github.com/drosera-network/drosera-lib
