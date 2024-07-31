@@ -39,3 +39,6 @@ url = https://github.com/foundry-rs/forge-std
 [submodule "bridges/nomad/lib/contracts"]
 	path = bridges/nomad/lib/contracts
 	url = https://github.com/drosera-network/contracts
+[submodule "lending-protocols/prisma/lib/contracts"]
+	path = lending-protocols/prisma/lib/contracts
+	url = https://github.com/drosera-network/contracts
