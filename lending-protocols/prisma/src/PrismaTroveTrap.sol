@@ -2,7 +2,7 @@
 pragma solidity ^0.8.13;
 
 import {IERC20} from "forge-std/interfaces/IERC20.sol";
-import {ITrap} from "drosera-lib/interfaces/ITrap.sol";
+import {ITrap} from "drosera-contracts/interfaces/ITrap.sol";
 
 // https://github.com/prisma-fi/prisma-contracts/blob/main/contracts/interfaces/ITroveManager.sol
 interface ITroveManager {
@@ -52,11 +52,11 @@ contract PrismaTroveTrap is ITrap {
             abi.encode(CollectOutput({debt: debt, coll: coll, collBalance: collBalance}));
     }
 
-    function isValid(
-        bytes[] calldata dataPoints
+    function shouldRespond(
+        bytes[] calldata data
     ) external pure returns (bool, bytes memory) {
-        CollectOutput memory currentBlock = abi.decode(dataPoints[0], (CollectOutput));
-        CollectOutput memory previousBlock = abi.decode(dataPoints[1], (CollectOutput));
+        CollectOutput memory currentBlock = abi.decode(data[0], (CollectOutput));
+        CollectOutput memory previousBlock = abi.decode(data[1], (CollectOutput));
 
         // Check for user collateral decrease
         if (currentBlock.coll < previousBlock.coll) {
@@ -73,11 +73,11 @@ contract PrismaTroveTrap is ITrap {
                     if (currentBlock.debt != 0) {
                         // The user's collateral has decreased by more than 10% from the previous block, they did not redeem any collateral, and they have debt still.
                         // Exploit occured! Trigger the emergency response.
-                        return (false, bytes(""));
+                        return (true, bytes(""));
                     }
                 }
             }
         }
-        return (true, bytes(""));
+        return (false, bytes(""));
     }
 }

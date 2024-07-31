@@ -3,7 +3,7 @@ pragma solidity ^0.8.12;
 
 import "./interfaces/IBondFixedExpiryTellerWithDrosera.sol";
 import {ERC20} from "../lib/solmate/src/tokens/ERC20.sol";
-import {ITrap} from "drosera-lib/interfaces/ITrap.sol";
+import {ITrap} from "drosera-contracts/interfaces/ITrap.sol";
 
 // Drosera Trap Contract
 // Purpose: This contract defines validation logic that determines an invalid state.
@@ -32,20 +32,20 @@ contract OlympusDaoTrap is ITrap {
         return abi.encode(result);
     }
 
-    function isValid(
-        bytes[] calldata dataPoints
+    function shouldRespond(
+        bytes[] calldata data
     ) external pure returns (bool, bytes memory) {
         
-        uint[] memory currentX = abi.decode(dataPoints[0], (uint[]));
-        uint[] memory previousX = abi.decode(dataPoints[1], (uint[]));
+        uint[] memory currentX = abi.decode(data[0], (uint[]));
+        uint[] memory previousX = abi.decode(data[1], (uint[]));
         if (previousX[0] > currentX[0]) {
             // Negative difference or no change
             if ((100 * (previousX[0] - currentX[0])) / previousX[0] <= 30) {
-                return (true, bytes(""));
+                return (false, bytes(""));
             }
         }
 
-        return (false, bytes(""));
+        return (true, bytes(""));
     }
 
     // Utility Functions

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import {ITrap} from "drosera-lib/interfaces/ITrap.sol";
+import {ITrap} from "drosera-contracts/interfaces/ITrap.sol";
 import {ITicTacToe} from "./interfaces/ITicTacToe.sol";
 
 contract TicTacToeTrap is ITrap {
@@ -11,7 +11,7 @@ contract TicTacToeTrap is ITrap {
         ITicTacToe.GameState state;
         ITicTacToe.PendingMove pendingMove;
         ITicTacToe.Player currentPlayer;
-        bool isValid;
+        bool shouldRespond;
     }
 
     // NOTE: constructor args are used here only for testing purposes
@@ -56,10 +56,10 @@ contract TicTacToeTrap is ITrap {
 
     }
 
-    function isValid(bytes[] calldata dataPoints) external pure override returns (bool, bytes memory) {
-        CollectOutput memory status = abi.decode(dataPoints[0], (CollectOutput));
+    function shouldRespond(bytes[] calldata data) external pure override returns (bool, bytes memory) {
+        CollectOutput memory status = abi.decode(data[0], (CollectOutput));
 
-        return (status.isValid, abi.encode(status.pendingMove.x, status.pendingMove.y, status.currentPlayer, status.state));
+        return (status.shouldRespond, abi.encode(status.pendingMove.x, status.pendingMove.y, status.currentPlayer, status.state));
 
     }
 }

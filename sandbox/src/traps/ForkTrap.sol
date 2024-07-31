@@ -2,7 +2,7 @@
 pragma solidity ^0.8.13;
 
 import {IERC20} from "forge-std/interfaces/IERC20.sol";
-import {ITrap} from "drosera-lib/interfaces/ITrap.sol";
+import {ITrap} from "drosera-contracts/interfaces/ITrap.sol";
 
 interface IUniPool {
     function liquidity() external view returns (uint256);
@@ -34,29 +34,29 @@ contract ForkTrap is ITrap {
             }));
     }
 
-    function isValid(
-        bytes[] calldata dataPoints
+    function shouldRespond(
+        bytes[] calldata data
     ) external pure returns (bool, bytes memory) {
-        uint256 len = dataPoints.length;
+        uint256 len = data.length;
 
         if (len == 2) {
             CustomCollectStruct memory dataPoints0 = abi.decode(
-                dataPoints[0],
+                data[0],
                 (CustomCollectStruct)
             );
             CustomCollectStruct memory dataPoints1 = abi.decode(
-                dataPoints[1],
+                data[1],
                 (CustomCollectStruct)
             );
             if (
                 !dataPoints0.isBridgePaused &&
                 dataPoints0.uniAmount > dataPoints1.uniAmount
             ) {
-                return (false, bytes(""));
+                return (true, bytes(""));
             }
         }
 
-        return (true, bytes(""));
+        return (false, bytes(""));
     }
 
     function getSomeUniData() public view returns (uint256) {

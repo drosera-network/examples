@@ -67,9 +67,9 @@ contract TicTacToeTrapTest is Test {
         bytes[] memory output = new bytes[](1);
         output[0] = data;
 
-        (bool isValid, bytes memory validData) = new TicTacToeTrap(address(ticTacToe)).isValid(output);
+        (bool shouldRespond, bytes memory validData) = new TicTacToeTrap(address(ticTacToe)).shouldRespond(output);
         (uint8 x_coord, uint8 y_coord, TicTacToe.Player memory _playerInfo, ITicTacToe.GameState _state) = abi.decode(validData, (uint8, uint8, ITicTacToe.Player, ITicTacToe.GameState));
-        return (isValid, x_coord, y_coord, _playerInfo, _state);
+        return (shouldRespond, x_coord, y_coord, _playerInfo, _state);
     }
 
 

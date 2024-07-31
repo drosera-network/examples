@@ -6,7 +6,7 @@ import {IERC20} from "forge-std/interfaces/IERC20.sol";
 import {BondFixedExpiryTellerWithDrosera} from "../src/BondFixedExpiryTellerWithDrosera.sol";
 import {ERC20BondToken} from "../src/ERC20BondToken.sol";
 import "../src/OlympusDaoTrap.sol";
-import {ITrap} from "../src/interfaces/ITrap.sol";
+import {ITrap} from "drosera-contracts/interfaces/ITrap.sol";
 
 address constant OHM = 0x64aa3364F17a4D01c6f1751Fd97C2BD3D7e7f1D5;
 
@@ -133,8 +133,8 @@ contract OlympusDaoTrapTest is Test {
         bytes[] memory dataPoints = new bytes[](2);
         dataPoints[0] = abi.encode(finalCollectedData);
         dataPoints[1] = abi.encode(initialCollectedData);
-        (bool result,) = trapContract.isValid(dataPoints);
-        require(result == false, "Trap should be invalid");
+        (bool shouldRespond,) = trapContract.shouldRespond(dataPoints);
+        require(shouldRespond == true, "Trap should be triggered");
         console.log(
             "DROSERA identified that state is invalid and emergency response is required"
         );
