@@ -30,10 +30,10 @@ contract TWAPTrapTest is Test {
         // Simulate blocks and check that the trap is valid with normal prices
         for (uint256 i = 99; i >= 10; i--) {
             prices[i] = new TWAPTrap().collect();
-            (bool isValid,) = new TWAPTrap().isValid(prices);
-            assertTrue(isValid
+            (bool shouldRespond,) = new TWAPTrap().shouldRespond(prices);
+            assertTrue(!shouldRespond
                 ,
-                "Trap should be valid with normal prices"
+                "Trap should not respond."
             );
             // Simulate a block
             vm.roll(block.number - 1);
@@ -43,10 +43,10 @@ contract TWAPTrapTest is Test {
         // Simulate price manipulation over multiple blocks in reverse order
         for (uint256 i = 9; i > 0; i--) {
             prices[i] = new TWAPTrap().collect();
-            (bool isValid,) = new TWAPTrap().isValid(prices);
+            (bool shouldRespond,) = new TWAPTrap().shouldRespond(prices);
             assertTrue(
-                isValid,
-                "Trap should remain valid during initial manipulation"
+                !shouldRespond,
+                "Trap should not respond during initial manipulation"
             );
             // Simulate a block
             vm.roll(block.number - 1);
@@ -57,9 +57,9 @@ contract TWAPTrapTest is Test {
         prices[0] = new TWAPTrap().collect();
 
         // Check that the trap is triggered with the larger price deviation
-        (bool isValid, ) = new TWAPTrap().isValid(prices);
+        (bool shouldRespond, ) = new TWAPTrap().shouldRespond(prices);
         assertTrue(
-            !isValid,
+            shouldRespond,
             "Trap should be triggered with larger price deviation"
         );
     }

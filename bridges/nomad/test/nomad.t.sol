@@ -5,7 +5,7 @@ import "forge-std/Test.sol";
 import {IERC20} from "forge-std/interfaces/IERC20.sol";
 import {ReplicaWithDrosera} from "../packages/contracts-core/contracts/ReplicaWithDrosera.sol";
 import {NomadTrap} from "../packages/NomadTrap.sol";
-import {ITrap} from "../packages/interfaces/ITrap.sol";
+import {ITrap} from "drosera-contracts/interfaces/ITrap.sol";
 
 
 /// @title Nomad Attacker Tests
@@ -113,10 +113,10 @@ contract NomadAttacker is Test {
         bytes[] memory dataPoints = new bytes[](2);
         dataPoints[0] = finalCollectedData;
         dataPoints[1] = initialCollectedData;
-        (bool result,) = newTrapContract.isValid(dataPoints);
-        require(result == false, "Trap should be invalid");
+        (bool result,) = newTrapContract.shouldRespond(dataPoints);
+        require(result == true, "Trap should respond");
         console.log(
-            "DROSERA identified that state is invalid and emergency response is required"
+            "DROSERA identified that an emergency response is required"
         );
 
         // Update code of nomad replica contract to be integrated with Drosera
@@ -124,7 +124,7 @@ contract NomadAttacker is Test {
         vm.etch(address(Replica), code);
 
         /* ---- USER 0 SUBMITS CLAIM ---- */
-        console.log("DROSERA submits claim that state is invalid");
+        console.log("DROSERA submits claim that a response is required");
         Replica.emergencyPause();
 
         // Post-Check

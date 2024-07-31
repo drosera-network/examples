@@ -37,10 +37,10 @@ contract LocalTrapTest is Test {
             new LocalTrap(address(myProtocol), address(mockBridge))
         );
         data[0] = LocalTrap(localTrap).collect();
-        (bool isValid,) = LocalTrap(localTrap).isValid(data);
+        (bool shouldRespond,) = LocalTrap(localTrap).shouldRespond(data);
 
         // No exploit seen
-        assert(isValid);
+        assert(!shouldRespond);
 
         vm.roll(block.number + 1);
         vm.warp(block.timestamp + 12);
@@ -54,10 +54,10 @@ contract LocalTrapTest is Test {
             new LocalTrap(address(myProtocol), address(mockBridge))
         );
         data[0] = LocalTrap(localTrap).collect();
-        (isValid, ) = LocalTrap(localTrap).isValid(data);
+        (shouldRespond, ) = LocalTrap(localTrap).shouldRespond(data);
 
         // Exploit seen
-        assert(!isValid);
+        assert(shouldRespond);
 
         // Remove bridge
         vm.prank(trapConfig);

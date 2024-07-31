@@ -25,7 +25,7 @@ contract ForkTrapTest is Test {
         vm.selectFork(exploitFork);
         data[0] = new ForkTrap().collect();
 
-        (bool isValid,) = new ForkTrap().isValid(data);
-        assert(isValid == false);
+        (bool shouldRespond,) = new ForkTrap().shouldRespond(data);
+        assert(shouldRespond == true);
     }
 }

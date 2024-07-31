@@ -2,7 +2,7 @@
 pragma solidity ^0.8.13;
 
 import {MockOracle} from "./MockOracle.sol";
-import {ITrap} from "drosera-lib/interfaces/ITrap.sol";
+import {ITrap} from "drosera-contracts/interfaces/ITrap.sol";
 
 /**
  * @title TWAPTrap
@@ -28,7 +28,7 @@ contract TWAPTrap is ITrap {
     /**
      * @dev Collects the latest price data point.
      * @return The latest price data point.
-     * @dev This function returns the current price from the MockOracle contract which is sent to `isValid` to check for price deviations.
+     * @dev This function returns the current price from the MockOracle contract which is sent to `shouldRespond` to check for price deviations.
      */
     function collect() external view returns (bytes memory) {
         MockOracle oracleInstance = MockOracle(mockOracle);
@@ -38,23 +38,23 @@ contract TWAPTrap is ITrap {
 
     /**
      * @dev Checks if the provided price data points are valid based on the deviation threshold.
-     * @param dataPoints An array of price data points to check.
-     * @return A boolean indicating whether the price data points are valid.
+     * @param data An array of price data points to check.
+     * @return A tuple of a boolean indicating whether a response should be sent along with bytes data.
      */
-    function isValid(
-        bytes[] calldata dataPoints
+    function shouldRespond(
+        bytes[] calldata data
     ) external pure returns (bool, bytes memory) {
-        uint256 dataPointsLength = dataPoints.length;
+        uint256 dataPointsLength = data.length;
         if (dataPointsLength < 2) {
-            return (true, bytes(""));
+            return (false, bytes(""));
         }
 
-        uint256 maxPrice = abi.decode(dataPoints[dataPointsLength - 1], (PriceDataPoint)).price;
-        uint256 minPrice = abi.decode(dataPoints[dataPointsLength - 1], (PriceDataPoint)).price;
-        uint256 deviation = abi.decode(dataPoints[dataPointsLength - 1], (PriceDataPoint)).deviationThreshold;
+        uint256 maxPrice = abi.decode(data[dataPointsLength - 1], (PriceDataPoint)).price;
+        uint256 minPrice = abi.decode(data[dataPointsLength - 1], (PriceDataPoint)).price;
+        uint256 deviation = abi.decode(data[dataPointsLength - 1], (PriceDataPoint)).deviationThreshold;
 
         for (uint256 i = 0; i < dataPointsLength; i++) {
-            uint256 price = abi.decode(dataPoints[i], (PriceDataPoint)).price;
+            uint256 price = abi.decode(data[i], (PriceDataPoint)).price;
             if (price == 0) {
                 continue;
             }
@@ -69,6 +69,6 @@ contract TWAPTrap is ITrap {
         uint256 allowedDeviation = (minPrice * deviation) /
             THRESHOLD_MULTIPLIER;
 
-        return (priceRange <= allowedDeviation, bytes(""));
+        return (priceRange > allowedDeviation, bytes(""));
     }
 }

@@ -4,7 +4,7 @@ pragma solidity ^0.8.13;
 import {IERC20} from "forge-std/interfaces/IERC20.sol";
 import {MyProtocol} from "../protocols/MyProtocol.sol";
 import {MockBridge} from "../protocols/MockBridge.sol";
-import {ITrap} from "drosera-lib/interfaces/ITrap.sol";
+import {ITrap} from "drosera-contracts/interfaces/ITrap.sol";
 
 contract LocalTrap is ITrap {
     struct CustomCollectStruct {
@@ -58,25 +58,25 @@ contract LocalTrap is ITrap {
             }));
     }
 
-    function isValid(
-        bytes[] calldata dataPoints
+    function shouldRespond(
+        bytes[] calldata data
     ) external pure returns (bool, bytes memory) {
-        uint256 len = dataPoints.length;
+        uint256 len = data.length;
 
         // loop through each block
         for (uint256 i = 0; i < len; i++) {
             // loop through each bridge
-            CustomCollectStruct memory data = abi.decode(
-                dataPoints[i],
+            CustomCollectStruct memory dataPoints = abi.decode(
+                data[i],
                 (CustomCollectStruct)
             );
-            for (uint256 j = 0; j < data.bridges.length; j++) {
-                if (data.mintBurnIssue[j]) {
-                    return (false, bytes(""));
+            for (uint256 j = 0; j < dataPoints.bridges.length; j++) {
+                if (dataPoints.mintBurnIssue[j]) {
+                    return (true, bytes(""));
                 }
             }
         }
 
-        return (true, bytes(""));
+        return (false, bytes(""));
     }
 }

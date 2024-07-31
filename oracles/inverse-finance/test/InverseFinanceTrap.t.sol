@@ -22,7 +22,7 @@ contract InverseFinanceTrapTest is Test {
 
         vm.selectFork(exploitFork);
         prices[0] = new InverseFinanceTrap().collect();
-        (bool isValid, ) = new InverseFinanceTrap().isValid(prices);
-        assertTrue(!isValid);
+        (bool shouldRespond, ) = new InverseFinanceTrap().shouldRespond(prices);
+        assertTrue(shouldRespond);
     }
 }

@@ -2,7 +2,7 @@
 pragma solidity ^0.8.13;
 
 import {IERC20} from "forge-std/interfaces/IERC20.sol";
-import {ITrap} from "drosera-lib/interfaces/ITrap.sol";
+import {ITrap} from "drosera-contracts/interfaces/ITrap.sol";
 
 interface IKeep3rV2Oracle {
     function current(
@@ -35,17 +35,17 @@ contract InverseFinanceTrap is ITrap{
         return abi.encode(PriceDataPoint({price: amountOut, timestamp: lastUpdatedAgo}));
     }
 
-    function isValid(
-        bytes[] calldata dataPoints
+    function shouldRespond(
+        bytes[] calldata data
     ) external pure returns (bool, bytes memory) {
-        uint256 len = dataPoints.length;
+        uint256 len = data.length;
         if (len < 2) {
-            return (true, bytes(""));
+            return (false, bytes(""));
         }
 
         for (uint256 i = 1; i < len; i++) {
-            PriceDataPoint memory currentPrice = abi.decode(dataPoints[i - 1], (PriceDataPoint));
-            PriceDataPoint memory prevPrice = abi.decode(dataPoints[i], (PriceDataPoint));
+            PriceDataPoint memory currentPrice = abi.decode(data[i - 1], (PriceDataPoint));
+            PriceDataPoint memory prevPrice = abi.decode(data[i], (PriceDataPoint));
 
             uint256 priceDiff = (currentPrice.price > prevPrice.price)
                 ? currentPrice.price - prevPrice.price
@@ -54,10 +54,10 @@ contract InverseFinanceTrap is ITrap{
             uint256 priceDeviation = (priceDiff * 100) / prevPrice.price;
 
             if (priceDeviation > PRICE_DEVIATION_THRESHOLD) {
-                return (false, bytes(""));
+                return (true, bytes(""));
             }
         }
 
-        return (true, bytes(""));
+        return (false, bytes(""));
     }
 }

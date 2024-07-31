@@ -30,9 +30,9 @@ contract PrismaTroveTrapTest is Test {
         dataPoints[0] = new PrismaTroveTrap().collect();
 
         // Check if the exploit succeeded in draining the user's collateral
-        (bool isValid, ) = new PrismaTroveTrap().isValid(dataPoints);
+        (bool shouldRespond, ) = new PrismaTroveTrap().shouldRespond(dataPoints);
 
-        // Assert the isValid function returns false triggering the emergency response
-        assertTrue(!isValid);
+        // Assert the shouldRespond function returns true triggering the emergency response
+        assertTrue(shouldRespond);
     }
 }
