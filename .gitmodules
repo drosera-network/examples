@@ -48,3 +48,6 @@ url = https://github.com/foundry-rs/forge-std
 [submodule "oracles/twap/lib/contracts"]
 	path = oracles/twap/lib/contracts
 	url = https://github.com/drosera-network/contracts
+[submodule "oracles/inverse-finance/lib/contracts"]
+	path = oracles/inverse-finance/lib/contracts
+	url = https://github.com/drosera-network/contracts
