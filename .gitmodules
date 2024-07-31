@@ -25,23 +25,8 @@ url = https://github.com/OpenZeppelin/openzeppelin-contracts
 [submodule "bridges/nomad/lib/forge-std"]
 path = bridges/nomad/lib/forge-std
 url = https://github.com/foundry-rs/forge-std
-[submodule "bridges/nomad/lib/drosera-lib"]
-path = bridges/nomad/lib/drosera-lib
-url = https://github.com/drosera-network/drosera-lib
-[submodule "lending-protocols/prisma/lib/drosera-lib"]
-path = lending-protocols/prisma/lib/drosera-lib
-url = https://github.com/drosera-network/drosera-lib
-[submodule "oracles/inverse-finance/lib/drosera-lib"]
-path = oracles/inverse-finance/lib/drosera-lib
-url = https://github.com/drosera-network/drosera-lib
 [submodule "lib/drosera-lib"]
 path = lib/drosera-lib
-url = https://github.com/drosera-network/drosera-lib
-[submodule "sandbox/lib/drosera-lib"]
-path = sandbox/lib/drosera-lib
-url = https://github.com/drosera-network/drosera-lib
-[submodule "tokens/olympus-dao/lib/drosera-lib"]
-path = tokens/olympus-dao/lib/drosera-lib
 url = https://github.com/drosera-network/drosera-lib
 [submodule "oracles/twap/lib/drosera-lib"]
 path = oracles/twap/lib/drosera-lib
@@ -51,6 +36,3 @@ url = https://github.com/foundry-rs/forge-std
 [submodule "misc/tic-tac-toe/lib/forge-std"]
 path = misc/tic-tac-toe/lib/forge-std
 url = https://github.com/foundry-rs/forge-std
-[submodule "misc/tic-tac-toe/lib/drosera-lib"]
-path = misc/tic-tac-toe/lib/drosera-lib
-url = https://github.com/drosera-network/drosera-lib
