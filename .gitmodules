@@ -36,3 +36,6 @@ url = https://github.com/foundry-rs/forge-std
 [submodule "misc/tic-tac-toe/lib/forge-std"]
 path = misc/tic-tac-toe/lib/forge-std
 url = https://github.com/foundry-rs/forge-std
+[submodule "bridges/nomad/lib/contracts"]
+	path = bridges/nomad/lib/contracts
+	url = https://github.com/drosera-network/contracts
