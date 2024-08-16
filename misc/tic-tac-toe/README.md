@@ -4,7 +4,7 @@
 
 Drosera traps can be used for much more than just monitoring blockchain exploits. In our fun tic-tac-toe smart contract we will leverage traps to monitor and update our tic-tac-toe game board. This allows us to leverage traps to do expensive compute of our game off-chain to verify pending moves and then automate the finalized moves.
 
-In this simple example we can simulate two players making moves on a tic-tac-toe board. The trap then analyzes the moves every block to validate the move is legal, and if there is a draw/win. Once this is done if the pending move from the player is valid the traps `isValid` function is triggered and the users response function is fired off with data to be passed in as arguments.
+In this simple example we can simulate two players making moves on a tic-tac-toe board. The trap then analyzes the moves every block to validate the move is legal, and if there is a draw/win. Once this is done if the pending move from the player is valid the traps `shouldRespond` function is triggered and the users response function is fired off with data to be passed in as arguments.
 
 Our example contract has a function only callable by Drosera as a response `finalizeMove()`. The trap passes the response data which is then used within the function to check if the game is over and emits events accordingly.
 
