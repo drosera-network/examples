@@ -15,10 +15,10 @@ This repository contains examples of [Drosera Traps](https://dev.drosera.io/) to
 
 ## High Level Overview
 
-The provided examples in this repository show how a trap can be structured to detect an incident using solidity. A trap simply indicates that an incident has occured via the `boolean` result from the Trap's `isValid` function.
+The provided examples in this repository show how a trap can be structured to detect an incident using solidity. A trap simply indicates that an incident has occured via the `boolean` result from the Trap's `shouldRespond` function.
 
-- If isValid returns `true` then there are no incidents.
-- If isValid returns `false` then there is an incident.
+- If shouldRespond returns `true` then there is an incident.
+- If shouldRespond returns `false` then there are no incidents.
 
 In order to provide additional context, its important understand how Drosera Traps are connected to the Drosera Protocol. The exact implementation details of the Drosera Protocol are not required to experiment with Trap creation.
 
@@ -42,7 +42,7 @@ Refer to [Trap Anatomy](https://dev.drosera.io/docs/traps/create-trap#trap-anato
 
 Drosera node operators run Trap logic every block using an array of previous `collect` data.
 
-You can visualize this as the `isValid` function being called with data from previous blocks.
+You can visualize this as the `shouldRespond` function being called with data from previous blocks.
 
 This allows for:
 
@@ -54,7 +54,7 @@ This allows for:
   - Solidity
 
 Example:
-A trap collects the balance of a user every block. The `isValid` function checks if the user's balance has decreased by 10% in the last block. `isValid` expects an array of balances from the last 2 blocks.
+A trap collects the balance of a user every block. The `shouldRespond` function checks if the user's balance has decreased by 10% in the last block. `shouldRespond` expects an array of balances from the last 2 blocks.
 
         | block 1 | block 2 | block 3 | block 4 |
         |---------|---------|---------|---------|

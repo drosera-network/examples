@@ -26,18 +26,18 @@ We have implemented a proof-of-concept TWAP oracle trap in Solidity, and a simul
 
 - This contract interacts with a mock oracle to collect price data for each block.
 - It provides a `collect` function that is used to retrieve mock oracle data.
-- The `isValid` function analyzes an array of price data points and checks for any price deviations that exceed the specified threshold (deviationThreshold). If a deviation is detected, it returns `false`, indicating a potential price manipulation. We also provide the amount of blocks to do the time-series analysis on.
+- The `shouldRespond` function analyzes an array of price data points and checks for any price deviations that exceed the specified threshold (deviationThreshold). If a deviation is detected, it returns `true`, indicating a potential price manipulation. We also provide the amount of blocks to do the time-series analysis on.
 
 2. The `TWAPTrapTest` contract:
 
 - This is a Foundry test contract that demonstrates how the TWAP oracle trap can be used to detect such manipulations.
 - It creates a hundred block range to check over and mocks out a stable price average over the first 90 blocks.
 - It then simulates a small manipulation in the last 10 blocks to show how the trap would detect the manipulation.
-- If the `isValid` function returns `false`, indicating a price manipulation, the test passes.
+- If the `shouldRespond` function returns `true`, indicating a price manipulation, the test passes.
 
 ## Results
 
-The test passes during the initial 90 blocks and when the larger deviation starts to occur in the last 10 blocks, the test catches this and returns `isValid` to false.
+The test passes during the initial 90 blocks and when the larger deviation starts to occur in the last 10 blocks, the test catches this and returns `shouldRespond` to true.
 
 To run the test, you can use the following command:
 

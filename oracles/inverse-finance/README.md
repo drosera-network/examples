@@ -24,14 +24,14 @@ We have implemented a proof-of-concept TWAP oracle trap in Solidity, and a simul
 
 - This contract interacts with the Keep3rV2Oracle, the oracle used by Inverse Finance, to retrieve price data points.
 - It provides a `collect` function to fetch the current price and timestamp from the oracle.
-- The `isValid` function analyzes an array of price data points and checks for any price deviations that exceed the specified threshold (PRICE_DEVIATION_THRESHOLD). If a deviation is detected, it returns `false`, indicating a potential price manipulation.
+- The `shouldRespond` function analyzes an array of price data points and checks for any price deviations that exceed the specified threshold (PRICE_DEVIATION_THRESHOLD). If a deviation is detected, it returns `true`, indicating a potential price manipulation.
 
 2. The `TWAPTrapTest` contract:
 
 - This is a Forge test contract that demonstrates how the TWAP oracle trap can be used to detect the Inverse Finance attack.
 - It creates two fork instances of the Ethereum mainnet: one at block `14506358` (before the exploit) and another at block `14506359` (during the exploit).
-- The `test_twapTrap` function collects price data points from both forks using the `InverseFinanceTrap` contract and passes them to the `isValid` function.
-- If the `isValid` function returns `false`, indicating a price manipulation, the test passes.
+- The `test_twapTrap` function collects price data points from both forks using the `InverseFinanceTrap` contract and passes them to the `shouldRespond` function.
+- If the `shouldRespond` function returns `true`, indicating a price manipulation, the test passes.
 
 ## Results
 
