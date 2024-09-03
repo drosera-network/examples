@@ -1,4 +1,6 @@
-ds-test/=lib/forge-std/lib/ds-test/src/
-forge-std/=lib/forge-std/src/
-openzeppelin/=lib/openzeppelin-contracts/contracts/
-drosera-contracts/=lib/contracts/src/
+ds-test/=node_modules/forge-std/lib/ds-test/src/
+forge-std/=node_modules/forge-std/src/
+openzeppelin/=node_modules/@openzeppelin-contracts/contracts/
+drosera-contracts/=node_modules/contracts/src/
+solmate/=node_modules/solmate/
+clones-with-immutable-args/=node_modules/clones-with-immutable-args/

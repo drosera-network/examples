@@ -1,0 +1,10 @@
+{
+  "name": "@trap-examples/bridges/nomad",
+  "version": "1.0.0",
+  "devDependencies": {
+    "forge-std": "github:foundry-rs/forge-std#v1.8.1"
+  },
+  "dependencies": {
+    "contracts": "https://github.com/drosera-network/contracts"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "@trap-examples/misc/tic-tac-toe",
+  "version": "1.0.0",
+  "devDependencies": {
+    "forge-std": "github:foundry-rs/forge-std#v1.8.1"
+  },
+  "dependencies": {
+    "contracts": "https://github.com/drosera-network/contracts",
+    "@prb/math": "^4.1.0"
+  }
+}

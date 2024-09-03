@@ -1,0 +1,13 @@
+{
+  "name": "@trap-examples/tokens/olympus-dao",
+  "version": "1.0.0",
+  "devDependencies": {
+    "forge-std": "github:foundry-rs/forge-std#v1.8.1"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "4.9.2",
+    "solmate": "github:transmissions11/solmate#v6",
+    "contracts": "https://github.com/drosera-network/contracts",
+    "clones-with-immutable-args": "github:0xSplits/clones-with-immutable-args#v1.0.0-27-gb58847d"
+  }
+}

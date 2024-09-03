@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0
 pragma solidity >=0.8.0;
 
-import {ERC20} from "../../lib/solmate/src/tokens/ERC20.sol";
+import {ERC20} from "solmate/src/tokens/ERC20.sol";
 
 interface IBondTeller {
     /// @notice                 Exchange quote tokens for a bond in a specified market
@@ -13,13 +13,9 @@ interface IBondTeller {
     /// @param minAmountOut_    Minimum acceptable amount of bond to receive. Prevents frontrunning
     /// @return                 Amount of payout token to be received from the bond
     /// @return                 Timestamp at which the bond token can be redeemed for the underlying token
-    function purchase(
-        address recipient_,
-        address referrer_,
-        uint256 id_,
-        uint256 amount_,
-        uint256 minAmountOut_
-    ) external returns (uint256, uint48);
+    function purchase(address recipient_, address referrer_, uint256 id_, uint256 amount_, uint256 minAmountOut_)
+        external
+        returns (uint256, uint48);
 
     /// @notice          Get current fee charged by the teller based on the combined protocol and referrer fee
     /// @param referrer_ Address of the referrer
