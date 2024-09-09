@@ -57,4 +57,3 @@ url = https://github.com/foundry-rs/forge-std
 [submodule "tokens/olympus-dao/lib/contracts"]
 	path = tokens/olympus-dao/lib/contracts
 	url = https://github.com/drosera-network/contracts
-
