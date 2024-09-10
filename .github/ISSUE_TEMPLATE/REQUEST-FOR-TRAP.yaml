@@ -1,0 +1,103 @@
+name: Request for Trap
+description: Request a Trap for your protocol.
+title: "[TRAP REQUEST]: "
+labels: ["trap", "request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for inquiring about Drosera Trap support! Lets get a little information about your protocol.
+  - type: input
+    id: contact
+    attributes:
+      label: Contact Details
+      description: How can we get in touch with you if we need more info?
+      placeholder: "ex. Telegram: @example"
+    validations:
+      required: false
+  - type: input
+    id: what-protocol
+    attributes:
+      label: Protocol Name
+      description: What is the name of your protocol.
+      placeholder: Name
+    validations:
+      required: true
+  - type: textarea
+    id: protocol-description
+    attributes:
+      label: Protocol Description
+      description: Give us a brief description of your protocol.
+      placeholder: Description
+    validations:
+      required: true
+  - type: input
+    id: protocol-website
+    attributes:
+      label: Protocol Website
+      description: What is the URL of your protocol?
+      placeholder: URL
+    validations:
+      required: true
+  - type: textarea
+    id: protocol-docs
+    attributes:
+      label: Protocol Documentation
+      description: Please provide a link/s to your protocol documentation.
+      placeholder: Protocol Documentation
+    validations:
+      required: true
+  - type: textarea
+    id: protocol-actions
+    attributes:
+      label: Protocol Actions
+      description: What actions can be taken?
+      placeholder: Are there on-chain actions that would mitigate risk?
+    validations:
+      required: true
+  - type: textarea
+    id: protocol-scenarios
+    attributes:
+      label: Protocol Scenarios
+      description: What scenarios would be important to trigger actions and/or alerts?
+      placeholder: "Examples: Depegs, Upgrades, Access control changes, Proposals, Large volume, Activity spikes"
+    validations:
+      required: true
+  - type: dropdown
+    id: onchain-alerts
+    attributes:
+      label: On-chain Alerts
+      description: Would on-chain alerts be helpful to signal that something has occurred?
+      options:
+        - "True"
+        - "False"
+    validations:
+      required: true
+  - type: textarea
+    id: protocol-data
+    attributes:
+      label: Data Analysis
+      description: "Is there state data that can provide insights into your protocol’s components or its users?"
+      placeholder: Examples
+    validations:
+      required: true
+  - type: dropdown
+    id: stage
+    attributes:
+      label: Protocol Stage
+      description: What stage is your protocol in?
+      options:
+        - devnet
+        - testnet
+        - mainnet
+      default: 0
+    validations:
+      required: true
+  - type: textarea
+    id: what-blockchain
+    attributes:
+      label: Blockchain Info
+      description: What blockchain/s are you deployed on?
+      placeholder: Blockchain/s deployed on.
+    validations:
+      required: true
