@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import {ERC20Mock} from "openzeppelin-contracts/contracts/mocks/token/ERC20Mock.sol";
+import {ERC20Mock} from "openzeppelin/mocks/ERC20Mock.sol";
 
 contract MockBridge {
     address public receiptToken;
@@ -22,15 +22,9 @@ contract MockBridge {
     }
 
     function redeem(address token, uint256 amount) external {
-        require(
-            locked[msg.sender][token] >= amount,
-            "MockBridge: insufficient balance"
-        );
+        require(locked[msg.sender][token] >= amount, "MockBridge: insufficient balance");
 
-        require(
-            ERC20Mock(receiptToken).balanceOf(address(this)) >= amount,
-            "MockBridge: insufficient balance"
-        );
+        require(ERC20Mock(receiptToken).balanceOf(address(this)) >= amount, "MockBridge: insufficient balance");
 
         ERC20Mock(receiptToken).burn(msg.sender, amount);
 

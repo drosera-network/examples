@@ -4,7 +4,7 @@ pragma solidity ^0.8.13;
 import {Test, console} from "forge-std/Test.sol";
 import {LocalTrap} from "../src/traps/LocalTrap.sol";
 import {IERC20} from "forge-std/interfaces/IERC20.sol";
-import {ERC20Mock} from "openzeppelin-contracts/contracts/mocks/token/ERC20Mock.sol";
+import {ERC20Mock} from "openzeppelin/mocks/ERC20Mock.sol";
 import {MyProtocol} from "../src/protocols/MyProtocol.sol";
 import {MockBridge} from "../src/protocols/MockBridge.sol";
 
@@ -31,11 +31,8 @@ contract LocalTrapTest is Test {
 
     function test_LocalTrap() external {
         // Trap is ran on current block
-        bytes[]
-            memory data = new bytes[](1);
-        address localTrap = address(
-            new LocalTrap(address(myProtocol), address(mockBridge))
-        );
+        bytes[] memory data = new bytes[](1);
+        address localTrap = address(new LocalTrap(address(myProtocol), address(mockBridge)));
         data[0] = LocalTrap(localTrap).collect();
         (bool shouldRespond,) = LocalTrap(localTrap).shouldRespond(data);
 
@@ -50,11 +47,9 @@ contract LocalTrapTest is Test {
 
         // Trap is ran next block
         data = new bytes[](1);
-        localTrap = address(
-            new LocalTrap(address(myProtocol), address(mockBridge))
-        );
+        localTrap = address(new LocalTrap(address(myProtocol), address(mockBridge)));
         data[0] = LocalTrap(localTrap).collect();
-        (shouldRespond, ) = LocalTrap(localTrap).shouldRespond(data);
+        (shouldRespond,) = LocalTrap(localTrap).shouldRespond(data);
 
         // Exploit seen
         assert(shouldRespond);

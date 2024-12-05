@@ -1,0 +1,10 @@
+{
+  "name": "sandbox",
+  "devDependencies": {
+    "forge-std": "github:foundry-rs/forge-std#v1.8.1"
+  },
+  "dependencies": {
+    "contracts": "https://github.com/drosera-network/contracts",
+    "openzeppelin": "github:OpenZeppelin/openzeppelin-contracts#v4.9.0"
+  }
+}

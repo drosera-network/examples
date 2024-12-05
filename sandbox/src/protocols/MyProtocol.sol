@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import {ERC20Mock} from "openzeppelin-contracts/contracts/mocks/token/ERC20Mock.sol";
+import {ERC20Mock} from "openzeppelin/mocks/ERC20Mock.sol";
 import {MockBridge} from "./MockBridge.sol";
 
-import {EnumerableSet} from "openzeppelin-contracts/contracts/utils/structs/EnumerableSet.sol";
+import {EnumerableSet} from "openzeppelin/utils/structs/EnumerableSet.sol";
 
 contract MyProtocol {
     using EnumerableSet for EnumerableSet.AddressSet;
@@ -16,10 +16,7 @@ contract MyProtocol {
     address public trapConfig;
 
     modifier onlyOwnerOrTrapConfig() {
-        require(
-            msg.sender == owner || msg.sender == address(trapConfig),
-            "MyProtocol: not owner or trap"
-        );
+        require(msg.sender == owner || msg.sender == address(trapConfig), "MyProtocol: not owner or trap");
         _;
     }
 

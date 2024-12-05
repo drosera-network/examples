@@ -1,0 +1,13 @@
+{
+  "name": "trap-examples",
+  "devDependencies": {
+    "forge-std": "github:foundry-rs/forge-std#v1.8.1"
+  },
+  "dependencies": {
+    "contracts": "https://github.com/drosera-network/contracts",
+    "@openzeppelin/contracts": "4.9.2",
+    "clones-with-immutable-args": "github:0xSplits/clones-with-immutable-args#v1.0.0-27-gb58847d",
+    "solmate": "github:transmissions11/solmate#v6",
+    "@prb/math": "^4.1.0"
+  }
+}
