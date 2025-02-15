@@ -36,7 +36,7 @@ stateDiagram-v2
     Note right of ResponseContract: Specified by Trap creator and contains incident response function
 ```
 
-Refer to [Trap Anatomy](https://dev.drosera.io/docs/traps/create-trap#trap-anatomy) for in-depth details of Trap architecture.
+Refer to [Trap Anatomy](https://dev.drosera.io/docs/trappers/creating-a-trap#trap-anatomy) for in-depth details of Trap architecture.
 
 ## Trap Simulation
 
