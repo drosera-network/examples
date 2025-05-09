@@ -1,0 +1,22 @@
+{
+  "lockfileVersion": 1,
+  "workspaces": {
+    "": {
+      "name": "@trap-examples/lending-protocols/euler",
+      "dependencies": {
+        "@openzeppelin/contracts": "5.0.0",
+        "contracts": "https://github.com/drosera-network/contracts",
+      },
+      "devDependencies": {
+        "forge-std": "github:foundry-rs/forge-std#v1.8.1",
+      },
+    },
+  },
+  "packages": {
+    "@openzeppelin/contracts": ["@openzeppelin/contracts@5.0.0", "", {}, "sha512-bv2sdS6LKqVVMLI5+zqnNrNU/CA+6z6CmwFXm/MzmOPBRSO5reEJN7z0Gbzvs0/bv/MZZXNklubpwy3v2+azsw=="],
+
+    "contracts": ["contracts@github:drosera-network/contracts#3a89d13", {}, "drosera-network-contracts-3a89d13"],
+
+    "forge-std": ["forge-std@github:foundry-rs/forge-std#bb4ceea", {}, "foundry-rs-forge-std-bb4ceea"],
+  }
+}
