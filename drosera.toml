@@ -1,0 +1,6 @@
+[traps.time_series]
+path = "out/TimeSeriesTrap.sol/TimeSeriesTrap.json"
+response_contract = "0xdA890040Af0533D98B9F5f8FE3537720ABf83B0C"
+response_function = "handleAnomaly(string,uint256)"
+cooldown_period_blocks = 30
+min_number_of_operators = 2
