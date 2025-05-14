@@ -1,3 +1,8 @@
+<p align="center">
+  <img src="DroseraHeader.jpeg" height="250">
+  </img>
+</p>
+
 # Table of Contents
 
 - [Drosera Trap Examples](#drosera-trap-examples)
