@@ -10,4 +10,4 @@ A simple UI to simulate, test, and visualize Drosera Trap logic.
 
 Built with **Vite + React + TailwindCSS**.
 
-> 🧪 Deployed version: 
+> 🧪 Deployed version: [https://drosera-gamma.vercel.app](https://drosera-gamma.vercel.app/)
