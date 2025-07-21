@@ -1,2 +1,3 @@
 forge-std/=node_modules/forge-std/src/
 drosera-contracts/=node_modules/contracts/src/
+solmate/=node_modules/solmate/

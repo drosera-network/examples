@@ -7,11 +7,11 @@ drosera_address = ""
 [traps.sudden_balance_drop]
 path = "out/SuddenBalanceDropTrap.sol/SuddenBalanceDropTrap.json"
 response_contract = "0x0000000000000000000000000000000000000000" # placeholder - would be response contract address
-response_function = "handleBalanceDrop(address,uint256,uint256)" # function to handle sudden balance drops
+response_function = "handleBalanceDropWithEvent(address,uint256,uint256)" # function to handle sudden balance drops
 cooldown_period_blocks = 50
-min_number_of_operators = 2
+min_number_of_operators = 1
 max_number_of_operators = 5
-block_sample_size = 1
-private_trap = false
+block_sample_size = 2
+private_trap = true
 whitelist = []
 address = "0x0000000000000000000000000000000000000000" # placeholder - would be deployed trap address

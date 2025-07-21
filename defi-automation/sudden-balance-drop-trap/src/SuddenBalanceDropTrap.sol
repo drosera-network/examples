@@ -43,22 +43,8 @@ contract SuddenBalanceDropTrap is ITrap {
         // Monitor real treasury/vault addresses with major stablecoins
         monitoredVaults.push(
             VaultInfo({
-                vault: 0x742d35cC6634C0532925a3B8d80a6B24C5D06e41, // Example treasury
-                token: 0xa0B86a33e6441fD9Eec086d4E61ef0b5D31a5e7D // USDC
-            })
-        );
-
-        monitoredVaults.push(
-            VaultInfo({
-                vault: 0x8Ba1f109551Bd432803012645Aac136C40872A5F, // Example vault
-                token: 0xdAC17F958D2ee523a2206206994597C13D831ec7 // USDT
-            })
-        );
-
-        monitoredVaults.push(
-            VaultInfo({
-                vault: 0x742d35cC6634C0532925a3B8d80a6B24C5D06e41, // Example treasury
-                token: 0x6B175474E89094C44Da98b954EedeAC495271d0F // DAI
+                vault: 0x742d35cC6634C0532925a3B8d80a6B24C5D06e41,
+                token: 0xa0B86a33e6441fD9Eec086d4E61ef0b5D31a5e7D
             })
         );
     }
