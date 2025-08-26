@@ -1,0 +1,12 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["node_modules"]
+remappings = [
+    "forge-std/=node_modules/forge-std/src/",
+    "contracts/=node_modules/contracts/src/"
+]
+
+[rpc_endpoints]
+mainnet = "https://eth.llamarpc.com"
+
