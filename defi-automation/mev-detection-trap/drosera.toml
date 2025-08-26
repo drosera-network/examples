@@ -1,0 +1,30 @@
+ethereum_rpc = "https://ethereum-hoodi-rpc.publicnode.com"
+drosera_rpc = "https://relay.hoodi.drosera.io"
+eth_chain_id = 560048
+drosera_address = ""
+
+[traps]
+
+[traps.mev_detection_monitor]
+path = "out/MEVDetectionTrap.sol/MEVDetectionTrap.json"
+response_contract = "0x0000000000000000000000000000000000000000" # would be MEVResponse contract address
+response_function = "handleMEVAlert(bytes)" # function to handle MEV alerts
+cooldown_period_blocks = 10
+min_number_of_operators = 3
+max_number_of_operators = 8
+block_sample_size = 15
+private_trap = false
+whitelist = []
+address = "0x0000000000000000000000000000000000000000" # deployed trap address
+
+[traps.sandwich_attack_monitor]
+path = "out/SandwichAttackTrap.sol/SandwichAttackTrap.json"
+response_contract = "0x0000000000000000000000000000000000000000" # would be MEVResponse contract address
+response_function = "handleMEVAlert(bytes)" # function to handle sandwich attack alerts
+cooldown_period_blocks = 5
+min_number_of_operators = 2
+max_number_of_operators = 6
+block_sample_size = 20
+private_trap = false
+whitelist = []
+address = "0x0000000000000000000000000000000000000000" # deployed trap address

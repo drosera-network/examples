@@ -1,0 +1,11 @@
+{
+  "name": "@trap-examples/defi-automation/mev-detection-trap",
+  "version": "1.0.0",
+  "description": "Comprehensive MEV detection traps for identifying sandwich attacks, arbitrage opportunities, and suspicious trading patterns",
+  "devDependencies": {
+    "forge-std": "^1.7.1"
+  },
+  "dependencies": {
+    "contracts": "https://github.com/drosera-network/contracts"
+  }
+}
