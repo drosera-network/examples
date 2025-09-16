@@ -14,28 +14,59 @@ token_address = Web3.to_checksum_address("0x000000000000000000000000000000000000
 
 # Minimal ABI to check ERC-20 details
 erc20_abi = [
-    {"constant": True, "inputs": [], "name": "owner", "outputs": [{"name": "", "type": "address"}], "type": "function"},
-    {"constant": True, "inputs": [], "name": "totalSupply", "outputs": [{"name": "", "type": "uint256"}], "type": "function"},
+    {
+        "constant": True,
+        "inputs": [],
+        "name": "owner",
+        "outputs": [{"name": "", "type": "address"}],
+        "type": "function",
+    },
+    {
+        "constant": True,
+        "inputs": [],
+        "name": "totalSupply",
+        "outputs": [{"name": "", "type": "uint256"}],
+        "type": "function",
+    },
 ]
 
-try:
-    contract = w3.eth.contract(address=token_address, abi=erc20_abi)
+def scan_contract(address):
+    """
+    Scans an ERC-20 contract for owner and totalSupply.
 
-    # Check owner
+    Parameters:
+        address (str): The ERC-20 token contract address.
+
+    Returns:
+        dict: Contains 'owner' and 'totalSupply' or None if data cannot be fetched.
+    """
     try:
-        owner = contract.functions.owner().call()
-        print(f"Owner address: {owner}")
-    except Exception:
-        print("⚠️ Could not fetch owner (might be hidden or renounced)")
+        contract = w3.eth.contract(address=address, abi=erc20_abi)
 
-    # Check total supply
-    try:
-        supply = contract.functions.totalSupply().call()
-        print(f"Total Supply: {supply}")
-    except Exception:
-        print("⚠️ Could not fetch total supply")
+        # Check owner
+        try:
+            owner = contract.functions.owner().call()
+            print(f"Owner address: {owner}")
+        except Exception:
+            owner = None
+            print("⚠️ Could not fetch owner (might be hidden or renounced)")
 
-    print("✅ Rug Radar scan completed (PoC)")
+        # Check total supply
+        try:
+            supply = contract.functions.totalSupply().call()
+            print(f"Total Supply: {supply}")
+        except Exception:
+            supply = None
+            print("⚠️ Could not fetch total supply")
 
-except Exception as e:
-    print("Error connecting to contract:", e)
+        print("✅ Rug Radar scan completed (PoC)")
+        return {"owner": owner, "totalSupply": supply}
+
+    except Exception as e:
+        print("Error connecting to contract:", e)
+        return None
+
+
+# Run scan
+if __name__ == "__main__":
+    scan_contract(token_address)
