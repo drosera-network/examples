@@ -22,4 +22,4 @@ It demonstrates how a tool could scan ERC-20 token contracts for potential rug-p
   - Checking for mint/blacklist functions
   - Detecting high owner liquidity control
   - Monitoring sudden changes in trading settings
-  - 
+    
