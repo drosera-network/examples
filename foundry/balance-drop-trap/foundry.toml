@@ -1,0 +1,8 @@
+[profile.default]
+src = 'src'
+test = 'test'
+libs = ['../../node_modules']
+remappings = [
+    'drosera-contracts/=../../node_modules/contracts/src/',
+    'forge-std/=../../node_modules/forge-std/src/'
+]
