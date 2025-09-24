@@ -1,0 +1,5 @@
+name: UniqueRugRadar
+description: "Test trap that collects owner() and totalSupply() for a test token and fires when totalSupply drops >= 10%."
+version: 0.1.0
+entrypoint: contracts/UniqueRugRadar.sol
+author: tollynft

@@ -1,0 +1,6 @@
+chain = "holesky"
+ethereum_rpc = "https://ethereum-holesky-rpc.publicnode.com"
+response_contract = ""
+response_function = ""
+path = "contracts/UniqueRugRadar.sol"
+# Use DROSERA_PRIVATE_KEY env var locally when running drosera apply
