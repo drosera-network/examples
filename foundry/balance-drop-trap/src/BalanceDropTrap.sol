@@ -3,43 +3,46 @@ pragma solidity ^0.8.20;
 
 import {ITrap} from "drosera-contracts/interfaces/ITrap.sol";
 
-// Bu tuzak, belirli bir cüzdanın ETH bakiyesindeki ani düşüşleri tespit eder.
+// This trap detects sudden drops in the ETH balance of a specific wallet.
 contract BalanceDropTrap is ITrap {
-    // İzlenecek cüzdanın adresi (Örnek olarak Vitalik Buterin'in adresi kullanılmıştır)
+    // The wallet address to monitor (Example: Vitalik Buterin's address)
     address constant TARGET_WALLET = 0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B;
-    // Alarm için eşik yüzdesi (Örn: %50'den fazla düşerse)
-    uint256 constant THRESHOLD_PERCENT = 50;
+    
+    // Using BPS for finer control (10,000 = 100%)
+    uint256 constant BPS = 10_000;
+    uint256 constant THRESHOLD_BPS = 5_000; // 50% threshold
 
-    // Bu fonksiyon her blokta çalışır ve cüzdanın o anki ETH bakiyesini kaydeder.
-    function collect() external view returns (bytes memory) {
-        return abi.encode(TARGET_WALLET.balance);
+    // This function runs on every block and records the wallet's current ETH balance.
+    function collect() external view override returns (bytes memory) {
+        // Including block.number for easier debugging as suggested
+        return abi.encode(block.number, TARGET_WALLET.balance);
     }
 
-    // Bu fonksiyon, geçmiş bloklardaki verileri analiz eder.
-    function shouldRespond(bytes[] calldata data) external pure returns (bool, bytes memory) {
-        // Analiz için en az 2 blok verisi (önceki ve şimdiki bakiye) gerekir.
+    // This function analyzes the data from past blocks.
+    function shouldRespond(bytes[] calldata data) external pure override returns (bool, bytes memory) {
+        // At least 2 blocks of data are needed for analysis.
         if (data.length < 2) {
             return (false, bytes(""));
         }
 
-        uint256 previousBalance = abi.decode(data[data.length - 2], (uint256));
-        uint256 currentBalance = abi.decode(data[data.length - 1], (uint256));
-
-        // Bakiye düşmediyse veya önceki bakiye 0 ise, sorun yoktur.
+        // Drosera passes samples newest first: data[0] is current, data[1] is previous.
+        ( , uint256 currentBalance) = abi.decode(data[0], (uint256, uint256));
+        ( , uint256 previousBalance) = abi.decode(data[1], (uint256, uint256));
+        
+        // If the balance has not dropped or the previous balance was 0, there is no issue.
         if (currentBalance >= previousBalance || previousBalance == 0) {
             return (false, bytes(""));
         }
 
-        // Düşüş miktarını ve yüzdesini hesapla.
-        uint256 dropAmount = previousBalance - currentBalance;
-        uint256 dropPercentage = (dropAmount * 100) / previousBalance;
+        // Calculate the drop amount and percentage in BPS.
+        uint256 dropBps = ((previousBalance - currentBalance) * BPS) / previousBalance;
 
-        // Eğer düşüş yüzdesi belirlediğimiz eşikten büyükse, ALARM VER!
-        if (dropPercentage >= THRESHOLD_PERCENT) {
+        // If the drop is greater than our threshold, TRIGGER THE ALARM!
+        if (dropBps >= THRESHOLD_BPS) {
             return (true, abi.encode(previousBalance, currentBalance));
         }
 
-        // Eşikten küçükse, sorun yoktur.
+        // If the drop is less than the threshold, there is no issue.
         return (false, bytes(""));
     }
 }
