@@ -1,0 +1,128 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.19;
+
+import {ITrap} from "contracts/interfaces/ITrap.sol";
+
+interface ITestLendingProtocol {
+    function getDepositCount(address user) external view returns (uint256);
+    function getWithdrawalCount(address user) external view returns (uint256);
+}
+
+/**
+ * @title FlashDepositWithdrawalTrap
+ * @notice Detect rapid deposits and withdrawals for test tokens
+ * @dev Trigger when a wallet performs too many deposit/withdrawal actions in short blocks
+ */
+contract FlashDepositWithdrawalTrap is ITrap {
+    uint256 constant MAX_ACTIONS_PER_BLOCK = 3; // threshold
+    uint256 constant BLOCK_LOOKBACK = 5; // last N blocks
+
+    struct WalletActivity {
+        address wallet;
+        uint256 deposits;
+        uint256 withdrawals;
+        uint256 blockNumber;
+    }
+
+    struct ActivityAlert {
+        address wallet;
+        uint256 deposits;
+        uint256 withdrawals;
+        uint256 blockNumber;
+    }
+
+    address public protocol;
+    address[] public monitoredWallets;
+
+    constructor(address _protocol, address[] memory _wallets) {
+        protocol = _protocol;
+        for (uint i = 0; i < _wallets.length; i++) {
+            monitoredWallets.push(_wallets[i]);
+        }
+    }
+
+    function collect() external view override returns (bytes memory) {
+        WalletActivity[] memory activities = new WalletActivity[](monitoredWallets.length);
+        ITestLendingProtocol lp = ITestLendingProtocol(protocol);
+
+        for (uint i = 0; i < monitoredWallets.length; i++) {
+            address wallet = monitoredWallets[i];
+            uint256 deposits = lp.getDepositCount(wallet);
+            uint256 withdrawals = lp.getWithdrawalCount(wallet);
+
+            activities[i] = WalletActivity({
+                wallet: wallet,
+                deposits: deposits,
+                withdrawals: withdrawals,
+                blockNumber: block.number
+            });
+        }
+
+        return abi.encode(activities);
+    }
+
+    function shouldRespond(
+        bytes[] calldata data
+    ) external pure override returns (bool shouldTrigger, bytes memory responseData) {
+        if (data.length < 2) {
+            return (false, "");
+        }
+
+        WalletActivity[] memory current = abi.decode(data[0], (WalletActivity[]));
+        WalletActivity[] memory previous = abi.decode(data[1], (WalletActivity[]));
+
+        if (current.length != previous.length) {
+            return (false, "");
+        }
+
+        ActivityAlert[] memory alerts = new ActivityAlert[](current.length);
+        uint256 alertCount = 0;
+
+        for (uint i = 0; i < current.length; i++) {
+            uint256 depositDelta = current[i].deposits > previous[i].deposits
+                ? current[i].deposits - previous[i].deposits
+                : 0;
+            uint256 withdrawalDelta = current[i].withdrawals > previous[i].withdrawals
+                ? current[i].withdrawals - previous[i].withdrawals
+                : 0;
+
+            if (depositDelta + withdrawalDelta > MAX_ACTIONS_PER_BLOCK) {
+                alerts[alertCount++] = ActivityAlert({
+                    wallet: current[i].wallet,
+                    deposits: depositDelta,
+                    withdrawals: withdrawalDelta,
+                    blockNumber: current[i].blockNumber
+                });
+            }
+        }
+
+        if (alertCount > 0) {
+            // Return all alerts in batch
+            ActivityAlert[] memory triggeredAlerts = new ActivityAlert[](alertCount);
+            for (uint j = 0; j < alertCount; j++) {
+                triggeredAlerts[j] = alerts[j];
+            }
+
+            return (true, abi.encode(triggeredAlerts));
+        }
+
+        return (false, "");
+    }
+
+    // Helpers for testing
+    function getMonitoredWallets() external view returns (address[] memory) {
+        return monitoredWallets;
+    }
+
+    function addMonitoredWallet(address wallet) external {
+        monitoredWallets.push(wallet);
+    }
+
+    function getProtocol() external view returns (address) {
+        return protocol;
+    }
+
+    function setProtocol(address _protocol) external {
+        protocol = _protocol;
+    }
+}
